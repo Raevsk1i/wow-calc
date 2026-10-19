@@ -1,0 +1,66 @@
+{
+  "note": "Lightweight curated talent/Apex stubs for UI editor. Full Blizzard trait graphs require Game Data API sync. Modifiers are descriptive — Accurate combat uses SimC talent strings/profiles.",
+  "specs": {
+    "mage_arcane": {
+      "classNodes": [
+        {"id": 90001, "name": "Arcane Charge Mastery", "nameRu": "Заряды чародейской магии", "maxRanks": 1, "row": 1, "col": 2, "tree": "class", "prerequisites": [], "description": "Improves Arcane Charge generation/spend interactions."},
+        {"id": 90002, "name": "Improved Clearcasting", "nameRu": "Улучшенная Ясность мысли", "maxRanks": 2, "row": 2, "col": 2, "tree": "class", "prerequisites": [90001]}
+      ],
+      "specNodes": [
+        {"id": 90010, "name": "Arcane Surge", "nameRu": "Чародейский выброс", "maxRanks": 1, "row": 1, "col": 2, "tree": "spec", "prerequisites": [], "description": "Major burst cooldown alignment."},
+        {"id": 90011, "name": "Touch of the Magi", "nameRu": "Касание мага", "maxRanks": 1, "row": 2, "col": 2, "tree": "spec", "prerequisites": [90010]},
+        {"id": 90012, "name": "Orb Barrage", "nameRu": "Залп сфер", "maxRanks": 1, "row": 3, "col": 1, "tree": "spec", "prerequisites": [90011], "description": "Affects AoE spend policy with Arcane Barrage/Orb."}
+      ],
+      "apexNodes": [
+        {"id": 90020, "name": "Apex: Magi's Prodigy", "nameRu": "Apex: Гений мага", "maxRanks": 1, "row": 1, "col": 2, "tree": "apex", "prerequisites": [90012], "description": "Midnight Apex path node (UI stub; load via talent string for Accurate)."}
+      ]
+    },
+    "demon_hunter_devourer": {
+      "classNodes": [
+        {"id": 91001, "name": "Consume", "nameRu": "Поглощение", "maxRanks": 1, "row": 1, "col": 2, "tree": "class", "prerequisites": [], "description": "Generates Fury/Souls."},
+        {"id": 91002, "name": "Reap", "nameRu": "Жатва", "maxRanks": 1, "row": 2, "col": 2, "tree": "class", "prerequisites": [91001]}
+      ],
+      "specNodes": [
+        {"id": 91010, "name": "Void Ray", "nameRu": "Луч Бездны", "maxRanks": 1, "row": 1, "col": 2, "tree": "spec", "prerequisites": []},
+        {"id": 91011, "name": "Void Metamorphosis", "nameRu": "Метаморфоза Бездны", "maxRanks": 1, "row": 2, "col": 2, "tree": "spec", "prerequisites": [91010], "description": "50 souls threshold."},
+        {"id": 91012, "name": "Collapsing Star", "nameRu": "Коллапсирующая звезда", "maxRanks": 1, "row": 3, "col": 2, "tree": "spec", "prerequisites": [91011], "description": "Every 30 souls during metamorphosis."}
+      ],
+      "apexNodes": [
+        {"id": 91020, "name": "Apex: Annihilator Path", "nameRu": "Apex: путь Аннигилятора", "maxRanks": 1, "row": 1, "col": 2, "tree": "apex", "prerequisites": [91012], "description": "Prefer Annihilator after 12.1.5 Void-Scarred rework."}
+      ]
+    },
+    "evoker_augmentation": {
+      "classNodes": [
+        {"id": 92001, "name": "Living Flame", "nameRu": "Живое пламя", "maxRanks": 1, "row": 1, "col": 2, "tree": "class", "prerequisites": []}
+      ],
+      "specNodes": [
+        {"id": 92010, "name": "Ebon Might", "nameRu": "Черная мощь", "maxRanks": 1, "row": 1, "col": 2, "tree": "spec", "prerequisites": [], "description": "Primary ally amp aura."},
+        {"id": 92011, "name": "Prescience", "nameRu": "Предвидение", "maxRanks": 1, "row": 2, "col": 1, "tree": "spec", "prerequisites": [92010]},
+        {"id": 92012, "name": "Breath of the Eons", "nameRu": "Дыхание эонов", "maxRanks": 1, "row": 3, "col": 2, "tree": "spec", "prerequisites": [92011], "description": "Ally damage attribution window."}
+      ],
+      "apexNodes": [
+        {"id": 92020, "name": "Apex: Chronowarden", "nameRu": "Apex: Хранитель времени", "maxRanks": 1, "row": 1, "col": 2, "tree": "apex", "prerequisites": [92012]}
+      ]
+    },
+    "death_knight_unholy": {
+      "specNodes": [
+        {"id": 93010, "name": "Lesser Ghoul", "nameRu": "Малый вурдалак", "maxRanks": 1, "row": 1, "col": 2, "tree": "spec", "prerequisites": [], "description": "Current Midnight pet/stack model — not legacy wound-only tooltips."},
+        {"id": 93011, "name": "Epidemic", "nameRu": "Эпидемия", "maxRanks": 1, "row": 2, "col": 2, "tree": "spec", "prerequisites": [93010]},
+        {"id": 93012, "name": "Defile", "nameRu": "Осквернение", "maxRanks": 1, "row": 3, "col": 2, "tree": "spec", "prerequisites": [93011]}
+      ],
+      "apexNodes": [
+        {"id": 93020, "name": "Apex: Rider Path", "nameRu": "Apex: Всадник", "maxRanks": 1, "row": 1, "col": 2, "tree": "apex", "prerequisites": [93012]}
+      ]
+    },
+    "hunter_marksmanship": {
+      "specNodes": [
+        {"id": 94010, "name": "Aimed Shot", "nameRu": "Прицельный выстрел", "maxRanks": 1, "row": 1, "col": 2, "tree": "spec", "prerequisites": []},
+        {"id": 94011, "name": "Blood Fletching", "nameRu": "Кровавое оперение", "maxRanks": 1, "row": 2, "col": 2, "tree": "spec", "prerequisites": [94010], "description": "Talent interactions may grant guaranteed crits where specified."},
+        {"id": 94012, "name": "Trick Shots", "nameRu": "Хитрые выстрелы", "maxRanks": 1, "row": 3, "col": 2, "tree": "spec", "prerequisites": [94011]}
+      ],
+      "apexNodes": [
+        {"id": 94020, "name": "Apex: Dark Ranger", "nameRu": "Apex: Тёмный следопыт", "maxRanks": 1, "row": 1, "col": 2, "tree": "apex", "prerequisites": [94012]}
+      ]
+    }
+  }
+}

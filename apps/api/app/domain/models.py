@@ -45,10 +45,6 @@ class FightStyle(str, Enum):
     heavy_movement = "HeavyMovement"
     dungeon_slice = "DungeonSlice"
     casting_patchwerk = "CastingPatchwerk"
-    low_target_cleave = "LightMovement"
-    dungeon_pack = "DungeonSlice"
-    large_aoe = "DungeonSlice"
-    custom = "Patchwerk"
 
 
 class SimulationMode(str, Enum):

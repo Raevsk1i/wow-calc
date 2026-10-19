@@ -30,7 +30,26 @@ def _load_json(settings: Settings, name: str) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _parse_spec(class_id: int, class_name: str, class_name_ru: str | None, raw: dict) -> Specialization:
+def _parse_talent_tree(heroes: list[HeroTalentTree], raw: dict, stubs: dict) -> TalentTree:
+    from app.domain.models import TalentNode
+
+    key = raw.get("key")
+    stub = (stubs.get("specs") or {}).get(key or "", {}) if stubs else {}
+    return TalentTree(
+        classNodes=[TalentNode.model_validate(n) for n in stub.get("classNodes") or []],
+        specNodes=[TalentNode.model_validate(n) for n in stub.get("specNodes") or []],
+        apexNodes=[TalentNode.model_validate(n) for n in stub.get("apexNodes") or []],
+        heroTrees=heroes,
+    )
+
+
+def _parse_spec(
+    class_id: int,
+    class_name: str,
+    class_name_ru: str | None,
+    raw: dict,
+    talent_stubs: dict | None = None,
+) -> Specialization:
     heroes = [HeroTalentTree.model_validate(h) for h in raw.get("heroTalentTrees") or []]
     abilities = [Ability.model_validate(a) for a in raw.get("abilities") or []]
     readiness = ReadinessStatus(raw.get("readiness") or raw["simulationSupport"])
@@ -48,7 +67,7 @@ def _parse_spec(class_id: int, class_name: str, class_name_ru: str | None, raw: 
         resourceType=raw.get("resourceType") or "Unknown",
         heroTalentTrees=heroes,
         abilities=abilities,
-        talentTree=TalentTree(heroTrees=heroes),
+        talentTree=_parse_talent_tree(heroes, raw, talent_stubs or {}),
         simulationSupport=readiness,
         readiness=readiness,
         canAccurate=bool(raw.get("canAccurate")),
@@ -82,6 +101,11 @@ def get_estimate_baselines() -> dict:
     return _load_json(get_settings(), "estimate_baselines.json")
 
 
+@lru_cache
+def get_talent_stubs() -> dict:
+    return _load_json(get_settings(), "talent_stubs.json")
+
+
 def list_versions(settings: Settings | None = None) -> list[dict]:
     settings = settings or get_settings()
     raw = _load_raw(settings)
@@ -112,10 +136,11 @@ def get_current_build(settings: Settings | None = None) -> dict:
 def list_classes(settings: Settings | None = None) -> list[WowClass]:
     settings = settings or get_settings()
     raw = _load_raw(settings)
+    stubs = _load_json(settings, "talent_stubs.json")
     classes: list[WowClass] = []
     for c in raw["classes"]:
         specs = [
-            _parse_spec(c["id"], c["name"], c.get("nameRu"), s) for s in c.get("specs") or []
+            _parse_spec(c["id"], c["name"], c.get("nameRu"), s, stubs) for s in c.get("specs") or []
         ]
         classes.append(
             WowClass(
@@ -180,3 +205,4 @@ def clear_catalog_cache() -> None:
     get_ruleset.cache_clear()
     get_raid_effects.cache_clear()
     get_estimate_baselines.cache_clear()
+    get_talent_stubs.cache_clear()

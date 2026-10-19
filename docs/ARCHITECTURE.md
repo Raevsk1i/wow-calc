@@ -3,25 +3,28 @@
 ## Overview
 
 ```text
-Next.js UI ──REST──▶ FastAPI ──enqueue──▶ Redis/RQ Worker ──subprocess──▶ SimulationCraft
-                         │                         │
-                         └── PostgreSQL/SQLite ◀────┘
+Next.js UI ──REST──▶ FastAPI
+                       ├─ FastEstimateEngine (deterministic)
+                       └─ enqueue ──▶ Redis/RQ Worker ──subprocess──▶ SimulationCraft
+                                              │
+                                              └── PostgreSQL/SQLite
 ```
 
-Layers are intentionally separated:
+Layers:
 
-1. **UI** — draft build state (Zustand), server state (TanStack Query)
-2. **API** — validation, catalog, job orchestration
-3. **Game data** — versioned JSON + MID1 presets
+1. **UI** — draft build state (Zustand), server state (TanStack Query), RU 3-column layout
+2. **API** — validation, SpecRegistry, job orchestration, document-shaped routes
+3. **Game data** — versioned JSON catalog + MID presets + ruleset provenance
 4. **Profile composer / APL mutator** — UI config → sanitized `.simc`
-5. **Simulation engine** — `ISimulationEngine` (`simc` | `mock`)
+5. **Simulation engines** — `fast_estimate` | `simc` | `mock`
 6. **Persistence** — jobs, builds, comparisons, cache keys
 
 ## Engine interface
 
 `ISimulationEngine.validate_request` / `run` with implementations:
 
-- `SimulationCraftEngine` — production
+- `FastEstimateEngine` — deterministic approximation
+- `SimulationCraftEngine` — Accurate Monte Carlo (production)
 - `MockSimulationEngine` — UI/dev only (`isDemo=true`)
 
 ## Security boundaries
@@ -33,4 +36,4 @@ Layers are intentionally separated:
 
 ## Caching
 
-Successful jobs store a SHA-256 of the canonical request + `simcCommit` + `dataSnapshotId`. Identical requests reuse prior results.
+Successful Accurate jobs store a SHA-256 of the canonical request + `simcCommit` + `dataSnapshotId`. Identical requests reuse prior results.
