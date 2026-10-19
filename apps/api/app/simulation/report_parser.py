@@ -17,6 +17,32 @@ def _mean(stat: Any) -> float | None:
     return None
 
 
+def _percentile(stat: Any, key: str) -> float | None:
+    if not isinstance(stat, dict):
+        return None
+    # SimC json2 may expose q / percentile fields inconsistently across versions.
+    for candidate in (key, f"percentile_{key}", f"p{key}"):
+        if candidate in stat and stat[candidate] is not None:
+            try:
+                return float(stat[candidate])
+            except (TypeError, ValueError):
+                continue
+    distribution = stat.get("distribution")
+    if isinstance(distribution, list) and distribution:
+        # Best-effort: treat as sorted samples if present.
+        try:
+            values = sorted(float(x) for x in distribution)
+            if key in {"05", "5"}:
+                idx = max(0, int(len(values) * 0.05) - 1)
+                return values[idx]
+            if key in {"95"}:
+                idx = min(len(values) - 1, int(len(values) * 0.95))
+                return values[idx]
+        except (TypeError, ValueError):
+            return None
+    return None
+
+
 def parse_json2_report(
     report: dict[str, Any] | str | Path,
     *,
@@ -26,6 +52,10 @@ def parse_json2_report(
     engine: str = "simc",
     is_demo: bool = False,
     warnings: list[str] | None = None,
+    assumptions: list[str] | None = None,
+    personal_dps: float | None = None,
+    external_contribution_dps: float | None = None,
+    effective_dps: float | None = None,
 ) -> SimulationResult:
     if isinstance(report, (str, Path)):
         data = json.loads(Path(report).read_text(encoding="utf-8"))
@@ -84,25 +114,44 @@ def parse_json2_report(
     action_sequence = None
     seq = collected.get("action_sequence")
     if isinstance(seq, list) and seq:
-        # Keep a short diagnostic sample only
         action_sequence = seq[:200]
 
     options = sim.get("options") or {}
     report_targets = targets
     if report_targets is None:
         report_targets = options.get("desired_targets")
+    target_count = int(report_targets) if report_targets is not None else None
+    dps_per_target = (mean_dps / target_count) if target_count else None
+
+    p05 = _percentile(dps, "05") if isinstance(dps, dict) else None
+    if p05 is None and isinstance(dps, dict):
+        p05 = _percentile(dps, "5")
+    p95 = _percentile(dps, "95") if isinstance(dps, dict) else None
+
+    # Approximate percentiles from mean±1.645σ when distribution missing.
+    std = _mean(dps.get("std_dev")) if isinstance(dps, dict) else None
+    if p05 is None and std is not None:
+        p05 = max(0.0, mean_dps - 1.645 * std)
+    if p95 is None and std is not None:
+        p95 = mean_dps + 1.645 * std
 
     return SimulationResult(
         meanDps=mean_dps,
         minDps=_mean(dps.get("min")) if isinstance(dps, dict) else None,
         maxDps=_mean(dps.get("max")) if isinstance(dps, dict) else None,
         medianDps=_mean(dps.get("median")) if isinstance(dps, dict) else None,
-        stdDev=_mean(dps.get("std_dev")) if isinstance(dps, dict) else None,
+        stdDev=std,
         meanStdDev=_mean(dps.get("mean_std_dev")) if isinstance(dps, dict) else None,
+        p05Dps=p05,
+        p95Dps=p95,
+        dpsPerTarget=dps_per_target,
+        personalDps=personal_dps if personal_dps is not None else mean_dps,
+        externalContributionDps=external_contribution_dps,
+        effectiveDps=effective_dps,
         totalDamage=total_damage,
         fightLength=fight_length,
         iterations=iterations or options.get("iterations"),
-        targets=int(report_targets) if report_targets is not None else None,
+        targets=target_count,
         breakdown=breakdown,
         actionSequence=action_sequence,
         gameVersion=game_version,
@@ -116,4 +165,5 @@ def parse_json2_report(
         engine=engine,
         isDemo=is_demo,
         warnings=warnings or [],
+        assumptions=assumptions or [],
     )

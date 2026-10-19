@@ -7,6 +7,8 @@ Base path: `/api/v1`
 | Method | Path |
 |---|---|
 | GET | `/health` |
+| GET | `/builds/current` |
+| GET | `/raid-effects` |
 | GET | `/game/versions` |
 | GET | `/classes` |
 | GET | `/classes/{classId}/specs` |
@@ -15,6 +17,8 @@ Base path: `/api/v1`
 | GET | `/specs/{specId}/abilities` |
 | GET | `/specs/{specId}/rotations/default` |
 | GET | `/specs/{specId}/gear-presets` |
+
+`/health` and `/builds/current` expose pinned ruleset metadata: patch `12.1.5`, `clientBuild` 70448, hotfix date, `dataSnapshotId`, and 13/40 class-spec coverage.
 
 ## Talents
 
@@ -32,6 +36,8 @@ Base path: `/api/v1`
 | GET | `/simulations/{id}` | job status + optional result |
 | GET | `/simulations/{id}/results` | 409 unless succeeded |
 | POST | `/simulations/{id}/cancel` | best-effort |
+| POST | `/stat-weights` | 501 stub |
+| POST | `/explain` | 501 stub |
 
 ### Simulation request (JSON)
 
@@ -42,9 +48,34 @@ Base path: `/api/v1`
   "talents": { "exportString": null, "heroTalent": "archon", "useProfileTalents": true },
   "gear": { "preset": "high", "rawSimcProfile": null },
   "rotation": { "mode": "automatic", "disabledActions": ["power_infusion"], "priority": [], "customApl": null },
-  "fight": { "targets": 1, "duration": 180, "fightStyle": "Patchwerk", "mode": "quick", "latencyMs": 50 }
+  "fight": {
+    "targets": 5,
+    "duration": 300,
+    "fightStyle": "Patchwerk",
+    "mode": "preview",
+    "clusterRadiusYards": 5,
+    "latencyMs": 50,
+    "iterations": null
+  },
+  "raid": {
+    "arcaneIntellect": true,
+    "battleShout": true,
+    "markOfTheWild": true,
+    "skyfury": true,
+    "chaosBrand": true,
+    "mysticTouch": true,
+    "bloodlust": { "enabled": true, "atMs": 0 }
+  },
+  "incomingDamageModel": { "enabled": true, "attacksPerSecond": 1.2, "physicalFraction": 0.75, "magicFraction": 0.25 },
+  "healerDamageProfile": { "damageActivity": 1.0, "healingActivity": 0.0 },
+  "party": { "enabled": false, "members": [] },
+  "seed": null
 }
 ```
+
+Fight `mode`: `preview` | `monte_carlo` (aliases `quick` | `accurate` still accepted).
+
+Result extras: `p05Dps`, `p95Dps`, `dpsPerTarget`, `personalDps`, `externalContributionDps`, `effectiveDps`, `assumptions[]`.
 
 ## Comparisons & builds
 

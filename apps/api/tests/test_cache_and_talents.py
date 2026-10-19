@@ -15,10 +15,10 @@ def test_cache_key_stable() -> None:
 
 
 def test_talent_import_header() -> None:
-    # Shadow priest MID1 hash from profile — may be long; at least parse header bits.
+    # Shadow priest MID2 hash from profile — may be long; at least parse header bits.
     from pathlib import Path
 
-    profile = Path(__file__).resolve().parents[3] / "packages/game-data/presets/12.1.5/MID1_Priest_Shadow.simc"
+    profile = Path(__file__).resolve().parents[3] / "packages/game-data/presets/12.1.5/MID2_Priest_Shadow.simc"
     text = profile.read_text(encoding="utf-8")
     talent_line = next(line for line in text.splitlines() if line.startswith("talents="))
     export = talent_line.split("=", 1)[1]

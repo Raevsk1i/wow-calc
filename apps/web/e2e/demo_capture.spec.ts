@@ -1,23 +1,36 @@
 import { expect, test } from "@playwright/test";
+import fs from "node:fs";
 import path from "node:path";
 
-const outDir = "/opt/cursor/artifacts/screenshots";
+const OUT = process.env.DEMO_SCREENSHOT_DIR ?? "/opt/cursor/artifacts/screenshots";
 
-test("capture simulator demo", async ({ page }) => {
-  test.setTimeout(180_000);
+test("capture Mage Fire and Devourer sims", async ({ page }) => {
+  fs.mkdirSync(OUT, { recursive: true });
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: "WoW DPS Lab" })).toBeVisible();
-  await page.screenshot({ path: path.join(outDir, "01-landing.png"), fullPage: true });
+  await expect(page.getByRole("heading", { name: "WoW DPS Lab" })).toBeVisible({ timeout: 30_000 });
+  await page.screenshot({ path: path.join(OUT, "01-landing-40-specs.png"), fullPage: true });
 
-  await page.locator("select").nth(0).selectOption({ label: "Priest" });
-  await page.waitForTimeout(600);
-  await page.locator("select").nth(1).selectOption({ label: "Shadow (supported)" });
-  await page.waitForTimeout(600);
-  await page.locator('input[type="number"]').first().fill("5");
-  await page.screenshot({ path: path.join(outDir, "02-configured-shadow-5targets.png"), fullPage: true });
+  const character = page.locator("aside").first();
+  const classSelect = character.locator("select").nth(0);
+  const specSelect = character.locator("select").nth(1);
 
-  await page.getByRole("button", { name: "Simulate" }).click();
-  await expect(page.getByText("Average DPS")).toBeVisible({ timeout: 120000 });
-  await page.waitForTimeout(800);
-  await page.screenshot({ path: path.join(outDir, "03-shadow-results.png"), fullPage: true });
+  await classSelect.selectOption({ label: "Mage" });
+  await expect(specSelect.locator("option", { hasText: "Fire" })).toHaveCount(1, { timeout: 10_000 });
+  // Fire Mage Blizzard spec id
+  await specSelect.selectOption("63");
+  await page.getByRole("button", { name: "5", exact: true }).click();
+  await page.getByRole("button", { name: "RUN" }).click();
+  await expect(page.getByText("Mean DPS")).toBeVisible({ timeout: 30_000 });
+  await expect(page.getByText("Demo / Mock engine result").first()).toBeVisible();
+
+  await page.screenshot({ path: path.join(OUT, "02-mage-fire-5-targets.png"), fullPage: true });
+
+  await classSelect.selectOption({ label: "Demon Hunter" });
+  await expect(specSelect.locator("option", { hasText: "Devourer" })).toHaveCount(1, { timeout: 10_000 });
+  // Devourer Blizzard spec id
+  await specSelect.selectOption("1480");
+  await page.getByRole("button", { name: "RUN" }).click();
+  await expect(page.getByText("Mean DPS")).toBeVisible({ timeout: 30_000 });
+  await page.screenshot({ path: path.join(OUT, "03-devourer-results.png"), fullPage: true });
 });
+

@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     app_name: str = "WoW DPS Lab"
     api_prefix: str = "/api/v1"
     game_version: str = "12.1.5"
-    data_snapshot_id: str = "12.1.5-mid1-d91a570"
+    data_snapshot_id: str = "12.1.5-70448-2026-10-17-d91a570"
 
     sim_engine: str = "simc"  # simc | mock
     simc_path: str = str(REPO_ROOT / "engine" / "simc" / "bin" / "simc")
@@ -25,13 +25,15 @@ class Settings(BaseSettings):
     redis_url: str = "redis://127.0.0.1:6379/0"
     database_url: str = f"sqlite:///{REPO_ROOT / 'apps' / 'api' / '.data' / 'wow_dps_lab.db'}"
 
-    # Resource limits
+    # Resource limits (preview ≈ quick; monte_carlo ≈ accurate/final)
     max_iterations_quick: int = 100
+    max_iterations_preview: int = 100
     max_iterations_accurate: int = 3000
+    max_iterations_monte_carlo: int = 10000
     max_targets: int = 20
     min_fight_duration: int = 30
     max_fight_duration: int = 600
-    sim_timeout_seconds: int = 180
+    sim_timeout_seconds: int = 300
     simc_threads: int = 2
     worker_queue: str = "simulations"
 
