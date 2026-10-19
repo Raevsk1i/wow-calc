@@ -1,0 +1,15 @@
+**/.git
+**/.next
+**/node_modules
+**/__pycache__
+**/.pytest_cache
+**/.venv
+**/venv
+**/coverage
+**/test-results
+**/playwright-report
+**/engine/simc/bin
+**/engine/simc/src
+**/.data
+**/*.log
+**/AGENTS.md
