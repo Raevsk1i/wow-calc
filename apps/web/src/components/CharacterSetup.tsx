@@ -10,30 +10,48 @@ function readinessBadge(status: string) {
   return "bg-rose-500/20 text-rose-200";
 }
 
-export function CharacterSetup({ classes }: { classes: WowClass[] }) {
+export function CharacterSetup({ classes, loading = false }: { classes: WowClass[]; loading?: boolean }) {
   const store = useSimulatorStore();
   const selectedClass = classes.find((c) => c.id === store.classId) ?? null;
   const specs = selectedClass?.specs ?? [];
+
+  async function pickSpec(specId: number) {
+    try {
+      store.selectSpec(await api.spec(specId));
+    } catch {
+      const local = classes.flatMap((c) => c.specs).find((s) => s.id === specId);
+      if (local) store.selectSpec(local);
+      else store.setError("Не удалось загрузить специализацию");
+    }
+  }
 
   return (
     <aside className="panel fade-in space-y-4 p-4">
       <h2 className="font-[family-name:var(--font-display)] text-lg text-[var(--accent)]">Персонаж</h2>
 
+      {loading && <p className="text-xs text-[var(--muted)]">Загрузка классов…</p>}
+      {!loading && classes.length === 0 && (
+        <p className="rounded-md border border-rose-500/40 bg-rose-500/10 px-2 py-2 text-xs text-rose-100">
+          Каталог классов пуст. Проверьте, что API запущен и доступен через /api/v1.
+        </p>
+      )}
+
       <div>
-        <label className="label">Класс</label>
+        <label className="label">Класс ({classes.length})</label>
         <select
           className="select"
           value={store.classId ?? ""}
+          disabled={classes.length === 0}
           onChange={async (e) => {
             const id = Number(e.target.value);
             store.selectClass(id);
             const cls = classes.find((c) => c.id === id);
             const first = cls?.specs[0];
-            if (first) store.selectSpec(await api.spec(first.id));
+            if (first) await pickSpec(first.id);
           }}
         >
           <option value="" disabled>
-            Выберите класс
+            {classes.length ? "Выберите класс" : "Нет классов"}
           </option>
           {classes.map((c) => (
             <option key={c.id} value={c.id}>
@@ -44,14 +62,15 @@ export function CharacterSetup({ classes }: { classes: WowClass[] }) {
       </div>
 
       <div>
-        <label className="label">Специализация</label>
+        <label className="label">Специализация ({specs.length})</label>
         <select
           className="select"
           value={store.specId ?? ""}
-          onChange={async (e) => store.selectSpec(await api.spec(Number(e.target.value)))}
+          disabled={specs.length === 0}
+          onChange={async (e) => pickSpec(Number(e.target.value))}
         >
           <option value="" disabled>
-            Выберите специализацию
+            {specs.length ? "Выберите специализацию" : "Сначала выберите класс"}
           </option>
           {specs.map((s) => (
             <option key={s.id} value={s.id}>

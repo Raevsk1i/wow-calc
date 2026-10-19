@@ -7,14 +7,19 @@ FROM node:22-alpine AS build
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY apps/web ./
-ARG NEXT_PUBLIC_API_BASE=http://localhost:8000/api/v1
+ARG NEXT_PUBLIC_API_BASE=/api/v1
+ARG API_PROXY_TARGET=http://api:8000
 ENV NEXT_PUBLIC_API_BASE=$NEXT_PUBLIC_API_BASE
+ENV API_PROXY_TARGET=$API_PROXY_TARGET
 # Production image only needs runtime deps; keep next build deterministic.
 RUN npm run build && npm prune --omit=dev
 
 FROM node:22-alpine
 WORKDIR /app
 ENV NODE_ENV=production
+ARG API_PROXY_TARGET=http://api:8000
+ENV API_PROXY_TARGET=$API_PROXY_TARGET
+ENV NEXT_PUBLIC_API_BASE=/api/v1
 COPY --from=build /app/.next ./.next
 COPY --from=build /app/public ./public
 COPY --from=build /app/package.json ./package.json

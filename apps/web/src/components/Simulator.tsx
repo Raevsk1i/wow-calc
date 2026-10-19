@@ -1,20 +1,41 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import { CharacterSetup } from "@/components/CharacterSetup";
 import { EncounterPanel } from "@/components/EncounterPanel";
 import { ResultsDashboard } from "@/components/ResultsDashboard";
 import { api, type WowClass } from "@/lib/api";
+import { loadFallbackClasses } from "@/lib/catalogFallback";
 import { useSimulatorStore } from "@/lib/store";
+
+async function loadClasses(): Promise<{ classes: WowClass[]; source: "api" | "fallback"; warning?: string }> {
+  try {
+    const classes = await api.classes();
+    if (!classes.length) {
+      throw new Error("API вернул пустой список классов");
+    }
+    return { classes, source: "api" };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "API недоступен";
+    const classes = await loadFallbackClasses();
+    return {
+      classes,
+      source: "fallback",
+      warning: `Каталог загружен локально (API: ${message}). Симуляция потребует работающий backend.`,
+    };
+  }
+}
 
 export function Simulator() {
   const store = useSimulatorStore();
+  const bootedSpec = useRef(false);
 
   const classesQuery = useQuery({
     queryKey: ["classes"],
-    queryFn: api.classes,
+    queryFn: loadClasses,
+    retry: 1,
   });
 
   const healthQuery = useQuery({
@@ -29,26 +50,30 @@ export function Simulator() {
     retry: 1,
   });
 
-  const classes = classesQuery.data ?? [];
+  const classes = classesQuery.data?.classes ?? [];
 
   useEffect(() => {
-    async function boot(data: WowClass[]) {
-      store.setClasses(data);
-      if (!store.specId) {
-        const shadow =
-          data
-            .flatMap((c) => c.specs.map((s) => ({ ...s, classId: c.id, className: c.name })))
-            .find((s) => s.key === "priest_shadow" || s.id === 258) ??
-          data.flatMap((c) => c.specs)[0];
-        if (shadow) {
-          const full = await api.spec(shadow.id);
-          store.selectSpec(full);
-        }
+    if (!classesQuery.data?.classes.length || bootedSpec.current) return;
+    const data = classesQuery.data.classes;
+    store.setClasses(data);
+    if (classesQuery.data.warning) {
+      store.setError(classesQuery.data.warning);
+    }
+    bootedSpec.current = true;
+    void (async () => {
+      if (store.specId) return;
+      const shadow =
+        data
+          .flatMap((c) => c.specs.map((s) => ({ ...s, classId: c.id, className: c.name })))
+          .find((s) => s.key === "priest_shadow" || s.id === 258) ?? data.flatMap((c) => c.specs)[0];
+      if (!shadow) return;
+      try {
+        const full = await api.spec(shadow.id);
+        store.selectSpec(full);
+      } catch {
+        store.selectSpec(shadow);
       }
-    }
-    if (classesQuery.data && store.classes.length === 0) {
-      void boot(classesQuery.data);
-    }
+    })();
   }, [classesQuery.data, store]);
 
   async function runSimulate() {
@@ -140,9 +165,10 @@ export function Simulator() {
             Engine: <span className="text-[var(--text)]">{healthQuery.data?.engine ?? "…"}</span>
           </div>
           <div>
-            Coverage:{" "}
+            Классы/спеки:{" "}
             <span className="text-[var(--text)]">
-              {healthQuery.data?.classCount ?? "—"}/{healthQuery.data?.specCount ?? "—"}
+              {classes.length || healthQuery.data?.classCount || "—"}/
+              {classes.reduce((n, c) => n + c.specs.length, 0) || healthQuery.data?.specCount || "—"}
             </span>
           </div>
         </div>
@@ -154,6 +180,19 @@ export function Simulator() {
         </div>
       )}
 
+      {classesQuery.isLoading && (
+        <div className="mb-4 rounded-xl border border-[var(--line)] bg-black/20 px-4 py-3 text-[var(--muted)]">
+          Загрузка каталога классов…
+        </div>
+      )}
+
+      {classesQuery.isError && (
+        <div className="mb-4 rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 py-3 text-rose-100">
+          Не удалось загрузить классы:{" "}
+          {classesQuery.error instanceof Error ? classesQuery.error.message : "unknown error"}
+        </div>
+      )}
+
       {store.error && (
         <div className="mb-4 rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 py-3 text-rose-100">
           {store.error}
@@ -161,7 +200,7 @@ export function Simulator() {
       )}
 
       <div className="grid gap-4 lg:grid-cols-[320px_minmax(0,1fr)_360px]">
-        <CharacterSetup classes={classes} />
+        <CharacterSetup classes={classes} loading={classesQuery.isLoading} />
         <EncounterPanel />
         <ResultsDashboard onSimulate={runSimulate} onCompare={runCompare} />
       </div>

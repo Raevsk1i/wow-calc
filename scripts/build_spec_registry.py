@@ -840,6 +840,10 @@ def main() -> None:
     assert len(ids) == len(set(ids))
 
     OUT.write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    web_public = ROOT / "apps/web/public/game-catalog.json"
+    if web_public.parent.is_dir():
+        web_public.write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        print(f"Synced UI fallback catalog → {web_public}")
     print(f"Wrote {OUT} classes={n_classes} specs={n_specs}")
 
 
