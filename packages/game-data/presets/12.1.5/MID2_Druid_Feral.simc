@@ -1,4 +1,4 @@
-druid="MID1_Druid_Feral_Wildstalker"
+druid="MID2_Druid_Feral_Wildstalker"
 source=default
 spec=feral
 level=90
@@ -6,7 +6,8 @@ race=night_elf
 timeofday=night
 role=attack
 position=back
-talents=CcGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjZwMzMzMmtFPwyMbzYGzMDAAAALBzGMmZUzYWYmZGjZmZAAAAAAAGAAAABAz2MLNbzssBmZAWMDGAAzMAYA
+talents=CcGADBD3hSPCL9Y9gz68WcKvMAAAAAAwYMjHwYmZMmtFPwyYbmZGzMDAAAALBzmhxMjaGzyYmZmtxMAAAAAAwADAAAgmZZ2mZmZ2mZpZZmlNwMDwiZwAAYmBzshB
+omnium_talents=136814:1/136821:1/136817:1/136823:1/136822:1
 
 # Default consumables
 potion=liquid_luster_2
@@ -147,32 +148,31 @@ actions.finisher=rip,if=combo_points>=5&refreshable&(buff.tigers_fury.up|remains
 actions.finisher+=/pool_resource,for_next=1
 actions.finisher+=/ferocious_bite,max_energy=1,if=combo_points>=5
 
-head=branches_of_the_luminous_bloom,id=250024,bonus_id=1808/13575/13575/13575/13575/13575/13575/13575/13575/13575/13575/13575/13575,ilevel=289,gem_id=240983,enchant_id=8017
-neck=amulet_of_the_abyssal_hymn,id=250247,bonus_id=12806/13577/13668,ilevel=289,gem_id=240892/240892
-shoulders=fallen_grunts_mantle,id=251092,bonus_id=4795,ilevel=289,enchant_id=8001
-back=defiant_defenders_drape,id=260312,bonus_id=4795,ilevel=289
-chest=trunk_of_the_luminous_bloom,id=250027,bonus_id=13575/13575/13575/13575/13575/13575/13575/13575/13575/13575/13575/13575,ilevel=289,enchant_id=7987
-wrists=silvermoon_agents_deflectors,id=244576,bonus_id=1808/8790/8960/12214/12214/12214/12214/12214/12214/12214/12214/12384,ilevel=285,gem_id=240892,crafted_stats=32/49
-hands=arbortenders_of_the_luminous_bloom,id=250025,bonus_id=13574/13574/13574/13574/13574/13574/13574/13574/13574/13574/13574/13574,ilevel=289
-waist=scornscarred_shulkas_belt,id=249374,bonus_id=1808/4795,ilevel=289,gem_id=240892
-legs=phloemwraps_of_the_luminous_bloom,id=250023,bonus_id=13575/13575/13575/13575/13575/13575/13575/13575/13575/13575/13575/13575,ilevel=289,enchant_id=8159
-feet=canopy_walkers_footwraps,id=249382,ilevel=289,enchant_id=7993
-finger1=eye_of_midnight,id=249920,bonus_id=40/12806/13335/13534,ilevel=289,gem_id=240892/240892,enchant_id=7967
-finger2=loa_worshipers_band,id=251513,bonus_id=8960/8960/12066/12214/12214/9627,ilevel=285,gem_id=240892,enchant_id=7967
-trinket1=algethar_puzzle_box,id=193701,ilevel=289
-trinket2=gaze_of_the_alnseer,id=249343,ilevel=289
-main_hand=roostwardens_bough,id=251077,ilevel=289,enchant_id=8039
+head=enigmatic_dreamwatchers_somnolent_stare,id=271528,bonus_id=4786/4800/13692/13698/13847/13848,ilevel=344,enchant_id=8017,redirected_base_stats=271875
+neck=aqirbane_reliquary,id=268265,bonus_id=4786/4800/13750/13848/13987,ilevel=344,gem_id=240983
+shoulders=enigmatic_dreamwatchers_plumage,id=271526,bonus_id=4786/4800/12854/13694/13697,ilevel=334,enchant_id=8001,redirected_base_stats=268246
+back=adherents_silken_shroud,id=239656,bonus_id=8793/8960/12214/12384/13751/13836/14001/12497,ilevel=331,crafted_stats=49/32,content_tuning=3615
+chest=enigmatic_dreamwatchers_lunar_raiment,id=271531,bonus_id=4786/4800/12854/13690/13698,ilevel=334,enchant_id=7987,redirected_base_stats=268235
+wrists=silvermoon_agents_deflectors,id=244576,bonus_id=8793/8960/12214/12384/13696/13751/13836/14001/12497,ilevel=331,crafted_stats=49/36,content_tuning=3615
+hands=enigmatic_dreamwatchers_gauntlets,id=271529,bonus_id=4786/4800/12854/13691/13697,ilevel=334,redirected_base_stats=268234
+waist=sash_of_the_forlorn_vessel,id=268256,bonus_id=4786/4800/13848,ilevel=344
+legs=enigmatic_dreamwatchers_leggings,id=271527,bonus_id=4786/4800/13693/13698/13848,ilevel=344,enchant_id=8159,redirected_base_stats=268225
+feet=bespittled_slitherslippers,id=268261,bonus_id=4786/4800/12854,ilevel=334,enchant_id=7963
+finger1=vile_alchemists_band,id=268249,bonus_id=4786/4800/12854/13750,ilevel=334,gem_id=240898,enchant_id=7967
+finger2=apex_brutes_claw_ring,id=268252,bonus_id=4786/4800/12854/13750,ilevel=334,gem_id=240900,enchant_id=7967
+trinket1=voracious_heart_of_ulatek,id=270175,bonus_id=4786/4800/13848,ilevel=344
+trinket2=zuljins_guillotine_technique,id=270173,bonus_id=4786/4800/13848,ilevel=344
+main_hand=abyssal_broodfiends_bardiche,id=268215,bonus_id=4786/4800/13846/13848,ilevel=344,enchant_id=8039
 
 # Gear Summary
-# gear_ilvl=288.47
-# gear_agility=1246
-# gear_stamina=23054
-# gear_crit_rating=526
-# gear_haste_rating=943
-# gear_mastery_rating=1037
-# gear_versatility_rating=37
-# gear_leech_rating=28
-# gear_avoidance_rating=200
-# gear_armor=875
-# set_bonus=midnight_season_1_2pc=1
-# set_bonus=midnight_season_1_4pc=1
+# gear_ilvl=338.27
+# gear_agility=1914
+# gear_stamina=40608
+# gear_crit_rating=942
+# gear_haste_rating=818
+# gear_mastery_rating=1259
+# gear_versatility_rating=107
+# gear_avoidance_rating=167
+# gear_armor=1196
+# set_bonus=midnight_season_2_2pc=1
+# set_bonus=midnight_season_2_4pc=1

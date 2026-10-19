@@ -4,6 +4,11 @@ import { create } from "zustand";
 
 import type { ComparisonResult, SimulationResult, Spec, WowClass } from "@/lib/api";
 
+export interface PartyMemberDraft {
+  specCanonicalId: string;
+  baselineDps: number;
+}
+
 export interface DraftState {
   classId: number | null;
   specId: number | null;
@@ -17,8 +22,27 @@ export interface DraftState {
   targets: number;
   duration: number;
   fightStyle: string;
-  mode: "quick" | "accurate";
+  mode: "preview" | "monte_carlo";
+  iterations: number | null;
+  seed: number | null;
+  clusterRadiusYards: number;
   gearPreset: "entry" | "mid" | "high" | "custom";
+  raid: {
+    arcaneIntellect: boolean;
+    battleShout: boolean;
+    markOfTheWild: boolean;
+    skyfury: boolean;
+    chaosBrand: boolean;
+    mysticTouch: boolean;
+    bloodlustEnabled: boolean;
+    bloodlustAtMs: number;
+  };
+  tankIncomingEnabled: boolean;
+  tankAps: number;
+  healerDamageActivity: number;
+  healerHealingActivity: number;
+  partyEnabled: boolean;
+  partyMembers: PartyMemberDraft[];
   classes: WowClass[];
   selectedSpec: Spec | null;
   result: SimulationResult | null;
@@ -42,8 +66,18 @@ export interface DraftState {
   setTargets: (n: number) => void;
   setDuration: (n: number) => void;
   setFightStyle: (style: string) => void;
-  setMode: (mode: "quick" | "accurate") => void;
+  setMode: (mode: "preview" | "monte_carlo") => void;
+  setIterations: (n: number | null) => void;
+  setSeed: (n: number | null) => void;
+  setClusterRadiusYards: (n: number) => void;
   setGearPreset: (preset: "entry" | "mid" | "high" | "custom") => void;
+  setRaidFlag: (key: keyof DraftState["raid"], value: boolean | number) => void;
+  setTankIncomingEnabled: (v: boolean) => void;
+  setTankAps: (v: number) => void;
+  setHealerDamageActivity: (v: number) => void;
+  setHealerHealingActivity: (v: number) => void;
+  setPartyEnabled: (v: boolean) => void;
+  setPartyMembers: (members: PartyMemberDraft[]) => void;
   resetRotation: () => void;
   setLoading: (v: boolean) => void;
   setError: (v: string | null) => void;
@@ -52,6 +86,24 @@ export interface DraftState {
   pinBaseline: () => void;
   buildRequest: () => Record<string, unknown>;
 }
+
+const defaultRaid = {
+  arcaneIntellect: true,
+  battleShout: true,
+  markOfTheWild: true,
+  skyfury: true,
+  chaosBrand: true,
+  mysticTouch: true,
+  bloodlustEnabled: true,
+  bloodlustAtMs: 0,
+};
+
+const defaultParty: PartyMemberDraft[] = [
+  { specCanonicalId: "mage_fire", baselineDps: 180000 },
+  { specCanonicalId: "warrior_fury", baselineDps: 175000 },
+  { specCanonicalId: "hunter_marksmanship", baselineDps: 170000 },
+  { specCanonicalId: "warlock_destruction", baselineDps: 165000 },
+];
 
 export const useSimulatorStore = create<DraftState>((set, get) => ({
   classId: null,
@@ -64,10 +116,20 @@ export const useSimulatorStore = create<DraftState>((set, get) => ({
   customApl: "",
   rawSimcProfile: "",
   targets: 1,
-  duration: 180,
+  duration: 300,
   fightStyle: "Patchwerk",
-  mode: "quick",
+  mode: "preview",
+  iterations: null,
+  seed: null,
+  clusterRadiusYards: 5,
   gearPreset: "high",
+  raid: { ...defaultRaid },
+  tankIncomingEnabled: true,
+  tankAps: 1.2,
+  healerDamageActivity: 1.0,
+  healerHealingActivity: 0.0,
+  partyEnabled: false,
+  partyMembers: defaultParty,
   classes: [],
   selectedSpec: null,
   result: null,
@@ -120,7 +182,17 @@ export const useSimulatorStore = create<DraftState>((set, get) => ({
   setDuration: (n) => set({ duration: n }),
   setFightStyle: (style) => set({ fightStyle: style }),
   setMode: (mode) => set({ mode }),
+  setIterations: (n) => set({ iterations: n }),
+  setSeed: (n) => set({ seed: n }),
+  setClusterRadiusYards: (n) => set({ clusterRadiusYards: n }),
   setGearPreset: (preset) => set({ gearPreset: preset }),
+  setRaidFlag: (key, value) => set((state) => ({ raid: { ...state.raid, [key]: value } })),
+  setTankIncomingEnabled: (v) => set({ tankIncomingEnabled: v }),
+  setTankAps: (v) => set({ tankAps: v }),
+  setHealerDamageActivity: (v) => set({ healerDamageActivity: v }),
+  setHealerHealingActivity: (v) => set({ healerHealingActivity: v }),
+  setPartyEnabled: (v) => set({ partyEnabled: v }),
+  setPartyMembers: (members) => set({ partyMembers: members }),
   resetRotation: () => {
     const spec = get().selectedSpec;
     if (!spec) return;
@@ -140,7 +212,8 @@ export const useSimulatorStore = create<DraftState>((set, get) => ({
   pinBaseline: () => set({ baselineResult: get().result }),
   buildRequest: () => {
     const s = get();
-    return {
+    const role = s.selectedSpec?.role;
+    const body: Record<string, unknown> = {
       gameVersion: "12.1.5",
       specId: s.specId,
       talents: {
@@ -163,8 +236,41 @@ export const useSimulatorStore = create<DraftState>((set, get) => ({
         duration: s.duration,
         fightStyle: s.fightStyle,
         mode: s.mode,
+        iterations: s.iterations,
         latencyMs: 50,
+        clusterRadiusYards: s.clusterRadiusYards,
       },
+      raid: {
+        arcaneIntellect: s.raid.arcaneIntellect,
+        battleShout: s.raid.battleShout,
+        markOfTheWild: s.raid.markOfTheWild,
+        skyfury: s.raid.skyfury,
+        chaosBrand: s.raid.chaosBrand,
+        mysticTouch: s.raid.mysticTouch,
+        bloodlust: { enabled: s.raid.bloodlustEnabled, atMs: s.raid.bloodlustAtMs },
+      },
+      seed: s.seed,
     };
+    if (role === "TANK") {
+      body.incomingDamageModel = {
+        enabled: s.tankIncomingEnabled,
+        attacksPerSecond: s.tankAps,
+        physicalFraction: 0.75,
+        magicFraction: 0.25,
+      };
+    }
+    if (role === "HEALER") {
+      body.healerDamageProfile = {
+        damageActivity: s.healerDamageActivity,
+        healingActivity: s.healerHealingActivity,
+      };
+    }
+    if (role === "SUPPORT") {
+      body.party = {
+        enabled: s.partyEnabled,
+        members: s.partyEnabled ? s.partyMembers : [],
+      };
+    }
+    return body;
   },
 }));

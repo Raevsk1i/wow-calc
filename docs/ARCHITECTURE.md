@@ -10,11 +10,11 @@ Next.js UI ──REST──▶ FastAPI ──enqueue──▶ Redis/RQ Worker �
 
 Layers are intentionally separated:
 
-1. **UI** — draft build state (Zustand), server state (TanStack Query)
-2. **API** — validation, catalog, job orchestration
-3. **Game data** — versioned JSON + MID1 presets
-4. **Profile composer / APL mutator** — UI config → sanitized `.simc`
-5. **Simulation engine** — `ISimulationEngine` (`simc` | `mock`)
+1. **UI** — draft build state (Zustand), server state (TanStack Query); Character / Encounter / Raid / Rotation / Results panels
+2. **API** — validation, 40-spec catalog, raid effects, job orchestration
+3. **Game data** — versioned JSON (`canonicalId`, coverage, roles) + MID2 presets (MID1 fallback)
+4. **Profile composer / APL mutator** — UI config → sanitized `.simc` (raid toggles, role options)
+5. **Simulation engine** — `ISimulationEngine` (`simc` | `mock`); preview vs Monte Carlo
 6. **Persistence** — jobs, builds, comparisons, cache keys
 
 ## Engine interface

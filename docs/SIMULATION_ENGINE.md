@@ -10,13 +10,15 @@ Current pin:
 - Commit: `d91a570`
 - Version string: `1210-01`
 - Game: `12.1.5.70448` (hotfix 2026-10-17)
+- Data snapshot: `12.1.5-70448-2026-10-17-d91a570`
+- Profiles: prefer **MID2**; MID1 fallback only where MID2 is absent
 
 ## Build locally
 
 ```bash
 ./engine/simc/build.sh
-./engine/simc/bin/simc packages/game-data/presets/12.1.5/MID1_Priest_Shadow.simc \
-  iterations=100 desired_targets=1 max_time=180 threads=2 json2=/tmp/out.json output=/dev/null
+./engine/simc/bin/simc packages/game-data/presets/12.1.5/MID2_Priest_Shadow.simc \
+  iterations=100 desired_targets=1 max_time=300 threads=2 json2=/tmp/out.json output=/dev/null
 ```
 
 ## Docker
@@ -24,6 +26,24 @@ Current pin:
 ```bash
 docker build -f engine/simc/Dockerfile -t wow-dps-lab-simc engine/simc
 ```
+
+## Dual mode
+
+| UI / API mode | Intent | Default iterations |
+|---|---|---|
+| `preview` (`quick`) | Interactive expected-value style preview | 100 |
+| `monte_carlo` (`accurate`) | Final stochastic result | up to 10000 |
+
+## Role handling
+
+- **DPS**: `position=back`, personal DPS + breakdown
+- **Tank**: `position=front` + approximate `incomingDamageModel` (documented warning)
+- **Healer**: post-scale by `healerDamageProfile.damageActivity` (default 1.0 = damage-only)
+- **Augmentation (SUPPORT)**: personal DPS from SimC/mock; optional curated `party` contribution factors from catalog metadata — never silent rank vs pure DPS without party
+
+## Raid toggles
+
+Independent buff/debuff flags compose into `optimal_raid` / documented lines. Partial selections force `optimal_raid=0` with a warning — not a single `raidDamageMultiplier`.
 
 ## json2 contract
 
@@ -33,6 +53,7 @@ Parser reads:
 - `sim.players[0].collected_data.dps|dmg|fight_length`
 - `sim.players[0].stats[*].actual_amount / portion_amount / num_executes / portion_aps`
 - optional `stats_pets`, optional `action_sequence` (diagnostic sample only)
+- percentiles when present; otherwise approximates p05/p95 from mean ± 1.645σ
 
 Fixture: `apps/api/tests/fixtures/json2_assassination_excerpt.json`
 
@@ -49,4 +70,4 @@ Initialization errors that mention talent hashes trigger one retry without `tale
 
 ## Interpreting DPS
 
-Mean DPS is stochastic. Prefer `mean_std_dev` / confidence style bands. Small deltas inside the error band are not reliable upgrades.
+Mean DPS is stochastic. Prefer `mean_std_dev` / p05–p95 bands. Small deltas inside the error band are not reliable upgrades. Always read `assumptions` and `warnings` next to the number.

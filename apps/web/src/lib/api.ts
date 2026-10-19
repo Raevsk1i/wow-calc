@@ -22,7 +22,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return res.json() as Promise<T>;
 }
 
-export type SimulationSupport = "supported" | "experimental" | "unsupported";
+export type SimulationSupport = "supported" | "experimental" | "partial" | "unsupported";
 
 export interface Ability {
   id: string;
@@ -41,19 +41,35 @@ export interface HeroTalentTree {
   simcToken?: string | null;
 }
 
+export interface SpecCoverage {
+  abilities?: boolean;
+  apl?: boolean;
+  singleTarget?: boolean;
+  aoe?: boolean;
+  pets?: boolean;
+  apex?: boolean;
+}
+
 export interface Spec {
   id: number;
   classId: number;
   className: string;
   name: string;
+  canonicalId?: string | null;
   role: string;
   resourceType: string;
   simulationSupport: SimulationSupport;
   heroTalentTrees: HeroTalentTree[];
   abilities: Ability[];
   notes?: string | null;
+  apexNotes?: string | null;
   defaultHeroTalent?: string | null;
   presetProfile?: string | null;
+  coverage?: SpecCoverage;
+  augmentationModel?: {
+    buffFactors?: Record<string, number>;
+    notes?: string | null;
+  } | null;
 }
 
 export interface WowClass {
@@ -80,6 +96,12 @@ export interface SimulationResult {
   medianDps?: number | null;
   stdDev?: number | null;
   meanStdDev?: number | null;
+  p05Dps?: number | null;
+  p95Dps?: number | null;
+  dpsPerTarget?: number | null;
+  personalDps?: number | null;
+  externalContributionDps?: number | null;
+  effectiveDps?: number | null;
   totalDamage?: number | null;
   fightLength?: number | null;
   iterations?: number | null;
@@ -93,6 +115,7 @@ export interface SimulationResult {
   engine: string;
   isDemo: boolean;
   warnings: string[];
+  assumptions?: string[];
 }
 
 export interface SimulationJob {
@@ -121,8 +144,30 @@ export interface ComparisonResult {
   }>;
 }
 
+export interface HealthInfo {
+  ok: boolean;
+  engine: string;
+  gameVersion: string;
+  dataSnapshotId?: string;
+  clientBuild?: number;
+  hotfixDate?: string;
+  specCount?: number;
+  classCount?: number;
+}
+
+export interface BuildCurrent {
+  patch: string;
+  clientBuild: number;
+  hotfixDate?: string;
+  dataSnapshotId: string;
+  simcCommit?: string;
+  level?: number;
+}
+
 export const api = {
-  health: () => request<{ ok: boolean; engine: string; gameVersion: string }>("/health"),
+  health: () => request<HealthInfo>("/health"),
+  buildsCurrent: () => request<BuildCurrent>("/builds/current"),
+  raidEffects: () => request<{ buffs: unknown[]; debuffs: unknown[] }>("/raid-effects"),
   classes: () => request<WowClass[]>("/classes"),
   spec: (id: number) => request<Spec>(`/specs/${id}`),
   importTalents: (exportString: string, expectedSpecId?: number) =>

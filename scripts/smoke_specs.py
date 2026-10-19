@@ -29,17 +29,17 @@ def main() -> int:
                 continue
             profile = spec.get("presetProfile")
             if not profile:
-                failures.append(f"{spec['name']}: missing preset")
+                failures.append(f"{spec.get('canonicalId', spec['name'])}: missing preset")
                 continue
             path = PRESETS / profile
             if not path.is_file():
-                failures.append(f"{spec['name']}: preset file missing ({profile})")
+                failures.append(f"{spec.get('canonicalId', spec['name'])}: preset file missing ({profile})")
                 continue
             with tempfile.TemporaryDirectory() as tmp:
                 out = Path(tmp) / "report.json"
                 text = path.read_text(encoding="utf-8")
-                # Mirror composer fallback for known broken hashes
-                if support == "experimental" and "talents=" in text:
+                # Mirror composer fallback for known broken hashes / MID1 leftovers
+                if support in {"experimental", "partial"} and "talents=" in text:
                     lines = [ln for ln in text.splitlines() if not ln.startswith("talents=")]
                     hero = spec.get("defaultHeroTalent")
                     if hero:

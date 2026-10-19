@@ -8,4 +8,4 @@ GAME_VERSION=12.1.5.70448
 HOTFIX_DATE=2026-10-17
 REPO_URL=https://github.com/simulationcraft/simc.git
 BUILD_FLAGS=SC_NO_NETWORKING=1 CXX=g++
-NOTES=MID1 talent hashes for some specs fail init on this commit; profile composer strips invalid talents= and falls back to hero_talents where curated.
+NOTES=Prefer MID2 actor profiles. MID1 fallbacks used only where MID2 is absent (Balance/Guardian/Devastation). Healers and Augmentation have no SimC presets on this pin and remain unsupported for combat sims. Invalid talents= hashes are stripped with hero_talents fallback where curated.

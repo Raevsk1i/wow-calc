@@ -8,7 +8,14 @@ from redis import Redis
 from rq.job import Job
 
 from app.config import get_settings
-from app.data.catalog import get_class, get_spec, list_classes, list_versions
+from app.data.catalog import (
+    current_build_metadata,
+    get_class,
+    get_spec,
+    list_classes,
+    list_versions,
+    raid_effects,
+)
 from app.domain.cache_keys import simulation_cache_key
 from app.domain.comparison import compare_results
 from app.domain.models import (
@@ -51,13 +58,41 @@ def _job_view(row: SimulationJobRow) -> SimulationJobView:
 def health() -> dict[str, Any]:
     settings = get_settings()
     engine = get_engine(settings)
+    meta = current_build_metadata(settings)
     return {
         "ok": True,
         "app": settings.app_name,
         "gameVersion": settings.game_version,
         "engine": engine.name,
         "dataSnapshotId": settings.data_snapshot_id,
+        "clientBuild": meta.get("clientBuild"),
+        "hotfixDate": meta.get("hotfixDate"),
+        "specCount": sum(len(c.specs) for c in list_classes(settings)),
+        "classCount": len(list_classes(settings)),
     }
+
+
+@router.get("/builds/current")
+def builds_current() -> dict[str, Any]:
+    """Pinned ruleset metadata (patch + build + hotfix + simc commit)."""
+    settings = get_settings()
+    meta = current_build_metadata(settings)
+    return {
+        "game": "wow-retail",
+        "expansion": "midnight",
+        "patch": settings.game_version,
+        "clientBuild": meta.get("clientBuild") or 70448,
+        "hotfixDate": meta.get("hotfixDate"),
+        "simcCommit": meta.get("simcCommit"),
+        "dataSnapshotId": meta.get("dataSnapshotId") or settings.data_snapshot_id,
+        "level": meta.get("level") or 90,
+        "sources": meta.get("sources") or [],
+    }
+
+
+@router.get("/raid-effects")
+def get_raid_effects() -> dict[str, Any]:
+    return raid_effects()
 
 
 @router.get("/game/versions")
@@ -131,28 +166,51 @@ def spec_gear_presets(spec_id: int) -> list[dict[str, Any]]:
         raise HTTPException(status_code=404, detail={"code": "spec_not_found", "message": "Spec not found"})
     if not spec.presetProfile:
         return []
+    tier = "MID2" if "MID2" in spec.presetProfile else "MID1"
     return [
         {
             "id": "high",
-            "name": "High Gear (MID1)",
+            "name": f"High Gear ({tier})",
             "profile": spec.presetProfile,
-            "source": "SimulationCraft profiles/MID1",
+            "source": f"SimulationCraft profiles/{tier}",
         },
         {
             "id": "mid",
             "name": "Mid Gear",
             "profile": spec.presetProfile,
-            "source": "Same MID1 profile (documented placeholder until PreRaids exists for this pin)",
-            "warning": "Mid currently aliases MID1 High for this data snapshot.",
+            "source": f"Same {tier} profile (alias until PreRaids exists for this pin)",
+            "warning": f"Mid currently aliases {tier} High for this data snapshot.",
         },
         {
             "id": "entry",
             "name": "Entry Gear",
             "profile": spec.presetProfile,
-            "source": "Same MID1 profile (documented placeholder until PreRaids exists for this pin)",
-            "warning": "Entry currently aliases MID1 High for this data snapshot.",
+            "source": f"Same {tier} profile (alias until PreRaids exists for this pin)",
+            "warning": f"Entry currently aliases {tier} High for this data snapshot.",
         },
     ]
+
+
+@router.post("/stat-weights")
+def stat_weights_stub() -> dict[str, Any]:
+    raise HTTPException(
+        status_code=501,
+        detail={
+            "code": "not_implemented",
+            "message": "Stat weights require paired Monte Carlo runs; use /comparisons for A/B builds.",
+        },
+    )
+
+
+@router.post("/explain")
+def explain_stub() -> dict[str, Any]:
+    raise HTTPException(
+        status_code=501,
+        detail={
+            "code": "not_implemented",
+            "message": "Damage attribution traces are not yet exposed; use simulation breakdown.",
+        },
+    )
 
 
 @router.post("/talents/import", response_model=TalentImportResult)

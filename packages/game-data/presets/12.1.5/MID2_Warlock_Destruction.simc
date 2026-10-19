@@ -1,11 +1,12 @@
-warlock="MID1_Warlock_Destruction_Diabolist"
+warlock="MID2_Warlock_Destruction_Hellcaller"
 source=default
 spec=destruction
 level=90
 race=Dwarf
 role=spell
-position=ranged_back
-talents=CsQAAAAAAAAAAAAAAAAAAAAAAwMzMzoZjhZmZmlZxMzMLGjFzAAgZmxMzsYBzMjZWWGNzMsNsNbNWYAAgxAjNAMzMzAzMGDAAAzMzMAAGDD
+position=back
+talents=CsQAAAAAAAAAAAAAAAAAAAAAAwMmZGNLMzmZmZWmFzMzsYMWMDAAmZGzMziNYgZxoxMAmtYjBAAGDM2AAmZwYGzYDAAwMzMAAMGG
+omnium_talents=136822:1/136816:1/136817:1/136815:1/136814:1
 
 # Default consumables
 potion=potion_of_recklessness_2
@@ -109,34 +110,34 @@ actions.variables+=/variable,name=ritual_length,value=buff.diabolic_ritual_mothe
 actions.variables+=/variable,name=trinket_1_will_lose_cast,value=((floor((fight_remains%trinket.1.cooldown.duration)+1)!=floor((fight_remains+(cooldown.summon_infernal.duration-cooldown.summon_infernal.remains))%cooldown.summon_infernal.duration))&(floor((fight_remains%trinket.1.cooldown.duration)+1))!=(floor(((fight_remains-cooldown.summon_infernal.remains)%trinket.1.cooldown.duration)+1))|((floor((fight_remains%trinket.1.cooldown.duration)+1)=floor((fight_remains+(cooldown.summon_infernal.duration-cooldown.summon_infernal.remains))%cooldown.summon_infernal.duration))&(((fight_remains-cooldown.summon_infernal.remains%%trinket.1.cooldown.duration)-cooldown.summon_infernal.remains-variable.trinket_1_buff_duration)>0)))&cooldown.summon_infernal.remains>20
 actions.variables+=/variable,name=trinket_2_will_lose_cast,value=((floor((fight_remains%trinket.2.cooldown.duration)+1)!=floor((fight_remains+(cooldown.summon_infernal.duration-cooldown.summon_infernal.remains))%cooldown.summon_infernal.duration))&(floor((fight_remains%trinket.2.cooldown.duration)+1))!=(floor(((fight_remains-cooldown.summon_infernal.remains)%trinket.2.cooldown.duration)+1))|((floor((fight_remains%trinket.2.cooldown.duration)+1)=floor((fight_remains+(cooldown.summon_infernal.duration-cooldown.summon_infernal.remains))%cooldown.summon_infernal.duration))&(((fight_remains-cooldown.summon_infernal.remains%%trinket.2.cooldown.duration)-cooldown.summon_infernal.remains-variable.trinket_2_buff_duration)>0)))&cooldown.summon_infernal.remains>20
 
-head=abyssal_immolators_smoldering_flames,id=250042,bonus_id=1808/13575/13575/13575/13575/13575/13575/13575/13575/13575,ilevel=289,gem_id=240983,enchant_id=7961
-neck=eternal_voidsong_chain,id=249368,bonus_id=12806/13577/13668,gem_id=240906
-shoulders=mantle_of_dark_devotion,id=251085,bonus_id=12806/13577,enchant_id=8001
-back=adherents_silken_shroud,id=239656,bonus_id=8791/8960/12214/12384/13622/13667/9627,crafted_stats=36/49
-chest=abyssal_immolators_dreadrobe,id=250045,bonus_id=13575/13575/13575/13575/13575/13575/13575/13575/13575,ilevel=289,enchant_id=7987
-wrists=martyrs_bindings,id=239648,bonus_id=1808/8960/12066/12214/12214/12214/12214/12214/12384/13622/13667/9627,gem_id=240906,crafted_stats=32/49
-hands=abyssal_immolators_grasps,id=250043,bonus_id=13574/13574/13574/13574/13574/13574/13574/13574/13574,ilevel=289
-waist=abyssal_immolators_blazing_core,id=250039,bonus_id=1808/12806,gem_id=240906
-legs=abyssal_immolators_pillars,id=250041,bonus_id=13575/13575/13575/13575/13575/13575/13575/13575/13575,ilevel=289,enchant_id=7935
-feet=dreamscorched_striders,id=249373,ilevel=289,enchant_id=7963
-finger1=omission_of_light,id=251093,bonus_id=12806/13577/13668,gem_id=240906,enchant_id=7967
-finger2=occlusion_of_void,id=251217,bonus_id=12806/13577/13668,gem_id=240906,enchant_id=7967
-trinket1=emberwing_feather,id=250144,bonus_id=12806/13577,ilevel=289
-trinket2=gaze_of_the_alnseer,id=249343,bonus_id=12806/13577
-main_hand=umbral_spire_of_zuraal,id=258514,bonus_id=12806/13577,enchant_id=8039
+head=venomkeepers_horrific_cowl,id=271874,bonus_id=13662/13750/13846/13848,gem_id=240967,enchant_id=8017
+neck=aqirbane_reliquary,id=268265,bonus_id=13662/13668/13848/13987,gem_id=240900/240900
+shoulders=spires_of_the_damned_necrolyte,id=271544,bonus_id=13694/13697,ilevel=334,enchant_id=8001,redirected_base_stats=239031
+back=silken_voodoo_drape,id=268253,ilevel=344
+chest=damned_necrolytes_rattling_robes,id=271549,bonus_id=12854/13690/13698,enchant_id=7987,redirected_base_stats=268221
+wrists=martyrs_bindings,id=239648,bonus_id=8791/8960/12214/12384/13750,ilevel=331,gem_id=240900
+hands=damned_necrolytes_charred_grasps,id=271547,bonus_id=13691/13697/13848,redirected_base_stats=268243
+waist=ethereal_netherwrap,id=251222,bonus_id=12854/13662/13750,gem_id=240906
+legs=damned_necrolytes_leg_bindings,id=271545,bonus_id=13693/13698/13848,enchant_id=7935,redirected_base_stats=273786
+feet=cackling_soultreads,id=268255,bonus_id=13662/13848,enchant_id=7963
+finger1=charged_sandstone_band,id=158366,bonus_id=12854/13662/13750,gem_id=240914,enchant_id=7967
+finger2=signet_of_snarling_servitude,id=251136,bonus_id=12854/13662/13668,gem_id=240890,enchant_id=7967
+trinket1=gebbos_bottomless_bag,id=270164,bonus_id=12854/13662
+trinket2=freightrunners_flask,id=250215,bonus_id=12854/13662
+main_hand=janthrazet_the_soul_fang,id=271092,bonus_id=40/13335/13848,enchant_id=8689,content_tuning=883
+off_hand=alnhara_lantern,id=245769,bonus_id=8791/8960/12214/13751/13771/13836/9627,crafted_stats=32/36
 
 # Gear Summary
-# gear_ilvl=288.47
-# gear_stamina=23054
-# gear_intellect=1670
-# gear_crit_rating=887
-# gear_haste_rating=839
-# gear_mastery_rating=777
-# gear_leech_rating=55
-# gear_avoidance_rating=130
-# gear_armor=531
-# set_bonus=voidlight_bindings_2pc=1
-# set_bonus=midnight_season_1_2pc=1
-# set_bonus=midnight_season_1_4pc=1
+# gear_ilvl=338.00
+# gear_stamina=41001
+# gear_intellect=2769
+# gear_crit_rating=1165
+# gear_haste_rating=787
+# gear_mastery_rating=1002
+# gear_versatility_rating=123
+# gear_avoidance_rating=212
+# gear_armor=740
+# set_bonus=midnight_season_2_2pc=1
+# set_bonus=midnight_season_2_4pc=1
 warlock.soul_shards=0
-warlock.default_pet=sayaad
+warlock.default_pet=imp

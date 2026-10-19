@@ -2,7 +2,9 @@
 
 Interactive DPS laboratory for **World of Warcraft: Midnight, patch 12.1.5 (Retail)**.
 
-Combat results are produced by **SimulationCraft** (GPL-3.0) via a sandboxed CLI worker — not by invented damage coefficients.
+Full catalog coverage: **13 classes / 40 specializations** (including tanks, healers, Devourer, Augmentation). Combat results are produced by **SimulationCraft** (GPL-3.0) via a sandboxed CLI worker — not by invented damage coefficients.
+
+Pinned ruleset: `12.1.5` + client build `70448` + hotfix `2026-10-17` + SimC `d91a570`.
 
 > Not affiliated with Blizzard Entertainment.
 
@@ -14,7 +16,7 @@ Combat results are produced by **SimulationCraft** (GPL-3.0) via a sandboxed CLI
 | API | FastAPI, Pydantic v2, SQLAlchemy |
 | Jobs | Redis + RQ |
 | Engine | Pinned SimulationCraft (`engine/simc/SIMC_PIN`) |
-| Data | Versioned catalog + MID1 presets under `packages/game-data` |
+| Data | Versioned catalog + MID2 presets (MID1 fallback) under `packages/game-data` |
 
 ## Quick start (local)
 
@@ -81,24 +83,29 @@ docker compose up --build
 
 Services: `web`, `api`, `worker`, `redis`, `db`. The `worker` image builds pinned SimulationCraft.
 
-## Supported specs (MVP)
+## Coverage matrix (Midnight 12.1.5)
 
-| Spec | Support | Notes |
-|---|---|---|
-| Shadow Priest | supported | MID1 profile |
-| Affliction Warlock | supported | MID1 profile |
-| Assassination Rogue | supported | MID1 profile |
-| Enhancement Shaman | supported | MID1 profile |
-| Fury Warrior | experimental | MID1 `talents=` hash fails on pin; retries with `hero_talents=slayer` |
-| Havoc Demon Hunter | experimental | same talent-hash caveat |
+| Support | Meaning |
+|---|---|
+| supported | Smoke-oriented MID2 presets (Shadow, Affliction, Assassination, Enhancement) |
+| experimental | Runnable MID2/MID1 preset present |
+| partial | Limited coverage (reserved) |
+| unsupported | No SimC preset on pin (most healers + Augmentation) — still listed in UI |
 
-Unsupported / healer specs are listed in the catalog but cannot be simulated.
+UI lets you pick talents (import string + hero), toggle abilities, set 1/3/5/10 targets, raid buffs, and run Preview or Monte Carlo sims. Role panels cover tank incoming model, healer damage activity, and Augmentation party contribution estimates.
 
 ## Tests
 
 ```bash
 cd apps/api && python3 -m pytest
 cd apps/web && npm test
+```
+
+Refresh presets:
+
+```bash
+scripts/import_mid2_presets.sh /path/to/simc/profiles/MID2 /path/to/simc/profiles/MID1
+scripts/smoke_specs.py
 ```
 
 ## Documentation
