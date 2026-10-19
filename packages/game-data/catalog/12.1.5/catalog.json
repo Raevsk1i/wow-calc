@@ -1,255 +1,2842 @@
 {
   "gameVersion": "12.1.5",
-  "dataSnapshotId": "12.1.5-mid1-d91a570",
+  "dataSnapshotId": "midnight-12.1.5-eu-2026-10-17-d91a570",
   "simcCommit": "d91a570",
+  "clientBuild": 70448,
+  "hotfixDate": "2026-10-17",
+  "region": "eu",
+  "verifiedAt": "2026-10-19T00:00:00Z",
+  "confidence": "pin-verified",
+  "aplRevision": "d91a57073f82f023076e6e3737389bb86193a0f9",
   "sources": [
-    "SimulationCraft profiles/MID1 (midnight d91a570)",
-    "SimulationCraft ActionPriorityLists",
-    "Curated ability catalogs for Supported specs (not invented damage coefficients)"
+    "Blizzard 12.1.5 patch notes / hotfixes",
+    "SimulationCraft midnight d91a570 SpellData + MID1 profiles",
+    "Curated ability catalogs (no invented coefficients)"
   ],
   "classes": [
     {
-      "id": 1,
-      "name": "Warrior",
-      "color": "#C79C6E",
+      "id": 6,
+      "name": "Death Knight",
+      "nameRu": "Рыцарь смерти",
+      "color": "#C41E3A",
       "specs": [
         {
-          "id": 72,
-          "name": "Fury",
-          "role": "DPS",
-          "resourceType": "Rage",
-          "simulationSupport": "experimental",
-          "presetProfile": "MID1_Warrior_Fury.simc",
-          "defaultHeroTalent": "slayer",
-          "notes": "MID1 talents= hash fails init on pinned SimC; engine retries with hero_talents=slayer. Import a valid loadout for accurate DPS.",
-          "heroTalentTrees": [
-            {
-              "id": "slayer",
-              "name": "Slayer",
-              "simcToken": "slayer"
-            },
-            {
-              "id": "mountain_thane",
-              "name": "Mountain Thane",
-              "simcToken": "mountain_thane"
-            }
-          ],
+          "id": 250,
+          "key": "death_knight_blood",
+          "name": "Blood",
+          "nameRu": "Кровь",
+          "role": "TANK",
+          "attackType": "melee",
+          "primaryStat": "strength",
+          "resourceType": "Runic Power",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": null,
+          "notes": "Offensive tank simulation; incoming-damage procs depend on encounter settings.",
+          "heroTalentTrees": [],
           "abilities": [
             {
-              "id": "rampage",
-              "name": "Rampage",
-              "simcAction": "rampage",
+              "id": "heart_strike",
+              "name": "Heart Strike",
+              "nameRu": "Heart Strike",
+              "simcAction": "heart_strike",
               "category": "active",
               "optional": false,
-              "aoeClass": "cleave"
+              "aoeClass": "cleave",
+              "dataStatus": "implemented"
             },
             {
-              "id": "bloodthirst",
-              "name": "Bloodthirst",
-              "simcAction": "bloodthirst",
+              "id": "blood_boil",
+              "name": "Blood Boil",
+              "nameRu": "Blood Boil",
+              "simcAction": "blood_boil",
               "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
             },
             {
-              "id": "raging_blow",
-              "name": "Raging Blow",
-              "simcAction": "raging_blow",
+              "id": "death_strike",
+              "name": "Death Strike",
+              "nameRu": "Death Strike",
+              "simcAction": "death_strike",
               "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             },
             {
-              "id": "execute",
-              "name": "Execute",
-              "simcAction": "execute",
+              "id": "marrowrend",
+              "name": "Marrowrend",
+              "nameRu": "Marrowrend",
+              "simcAction": "marrowrend",
               "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             },
             {
-              "id": "recklessness",
-              "name": "Recklessness",
-              "simcAction": "recklessness",
+              "id": "dancing_rune_weapon",
+              "name": "Dancing Rune Weapon",
+              "nameRu": "Dancing Rune Weapon",
+              "simcAction": "dancing_rune_weapon",
               "category": "active",
               "optional": true,
               "aoeClass": "single_target",
-              "cooldown": 90
+              "dataStatus": "implemented"
             },
             {
-              "id": "avatar",
-              "name": "Avatar",
-              "simcAction": "avatar",
-              "category": "active",
-              "optional": true,
-              "aoeClass": "single_target",
-              "cooldown": 90
-            },
-            {
-              "id": "odyns_fury",
-              "name": "Odyn's Fury",
-              "simcAction": "odyns_fury",
+              "id": "consumption",
+              "name": "Consumption",
+              "nameRu": "Consumption",
+              "simcAction": "consumption",
               "category": "active",
               "optional": true,
               "aoeClass": "aoe",
-              "cooldown": 45
+              "dataStatus": "implemented"
             },
             {
               "id": "auto_attack",
               "name": "Auto Attack",
+              "nameRu": "Auto Attack",
               "simcAction": "auto_attack",
-              "category": "system",
+              "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             }
-          ]
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": true
         },
         {
-          "id": 71,
-          "name": "Arms",
+          "id": 251,
+          "key": "death_knight_frost",
+          "name": "Frost",
+          "nameRu": "Лёд",
           "role": "DPS",
-          "resourceType": "Rage",
-          "simulationSupport": "unsupported",
-          "presetProfile": "MID1_Warrior_Arms.simc",
-          "notes": "MID1 talent hash fails on pinned SimC; not exposed as Supported until a validated loadout is curated.",
-          "heroTalentTrees": [],
-          "abilities": []
+          "attackType": "melee",
+          "primaryStat": "strength",
+          "resourceType": "Runic Power",
+          "readiness": "implemented",
+          "simulationSupport": "implemented",
+          "canAccurate": true,
+          "canFastEstimate": true,
+          "presetProfile": "MID1_Death_Knight_Frost.simc",
+          "defaultHeroTalent": "deathbringer",
+          "notes": null,
+          "heroTalentTrees": [
+            {
+              "id": "deathbringer",
+              "name": "Deathbringer",
+              "simcToken": "deathbringer"
+            },
+            {
+              "id": "rider_of_the_apocalypse",
+              "name": "Rider of the Apocalypse",
+              "simcToken": "rider_of_the_apocalypse"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "obliterate",
+              "name": "Obliterate",
+              "nameRu": "Obliterate",
+              "simcAction": "obliterate",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "frostscythe",
+              "name": "Frostscythe",
+              "nameRu": "Frostscythe",
+              "simcAction": "frostscythe",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "howling_blast",
+              "name": "Howling Blast",
+              "nameRu": "Howling Blast",
+              "simcAction": "howling_blast",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "frost_strike",
+              "name": "Frost Strike",
+              "nameRu": "Frost Strike",
+              "simcAction": "frost_strike",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "remorseless_winter",
+              "name": "Remorseless Winter",
+              "nameRu": "Remorseless Winter",
+              "simcAction": "remorseless_winter",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "pillar_of_frost",
+              "name": "Pillar of Frost",
+              "nameRu": "Pillar of Frost",
+              "simcAction": "pillar_of_frost",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "breath_of_sindragosa",
+              "name": "Breath of Sindragosa",
+              "nameRu": "Breath of Sindragosa",
+              "simcAction": "breath_of_sindragosa",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "auto_attack",
+              "name": "Auto Attack",
+              "nameRu": "Auto Attack",
+              "simcAction": "auto_attack",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
         },
         {
-          "id": 73,
-          "name": "Protection",
-          "role": "TANK",
-          "resourceType": "Rage",
-          "simulationSupport": "unsupported",
-          "presetProfile": null,
-          "heroTalentTrees": [],
-          "abilities": []
+          "id": 252,
+          "key": "death_knight_unholy",
+          "name": "Unholy",
+          "nameRu": "Нечестивость",
+          "role": "DPS",
+          "attackType": "melee",
+          "primaryStat": "strength",
+          "resourceType": "Runic Power",
+          "readiness": "implemented",
+          "simulationSupport": "implemented",
+          "canAccurate": true,
+          "canFastEstimate": true,
+          "presetProfile": "MID1_Death_Knight_Unholy.simc",
+          "defaultHeroTalent": "rider_of_the_apocalypse",
+          "notes": "Uses current Lesser Ghoul / disease / pet cleave model from pinned SimC MID1 Unholy profile.",
+          "heroTalentTrees": [
+            {
+              "id": "rider_of_the_apocalypse",
+              "name": "Rider of the Apocalypse",
+              "simcToken": "rider_of_the_apocalypse"
+            },
+            {
+              "id": "sanlayn",
+              "name": "San'layn",
+              "simcToken": "sanlayn"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "festering_strike",
+              "name": "Festering Strike",
+              "nameRu": "Festering Strike",
+              "simcAction": "festering_strike",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "scourge_strike",
+              "name": "Scourge Strike",
+              "nameRu": "Scourge Strike",
+              "simcAction": "scourge_strike",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "cleave",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "death_coil",
+              "name": "Death Coil",
+              "nameRu": "Death Coil",
+              "simcAction": "death_coil",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "epidemic",
+              "name": "Epidemic",
+              "nameRu": "Epidemic",
+              "simcAction": "epidemic",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "outbreak",
+              "name": "Outbreak",
+              "nameRu": "Outbreak",
+              "simcAction": "outbreak",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "apocalypse",
+              "name": "Apocalypse",
+              "nameRu": "Apocalypse",
+              "simcAction": "apocalypse",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "dark_transformation",
+              "name": "Dark Transformation",
+              "nameRu": "Dark Transformation",
+              "simcAction": "dark_transformation",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "raise_dead",
+              "name": "Raise Dead",
+              "nameRu": "Raise Dead",
+              "simcAction": "raise_dead",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "defile",
+              "name": "Defile",
+              "nameRu": "Defile",
+              "simcAction": "defile",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "auto_attack",
+              "name": "Auto Attack",
+              "nameRu": "Auto Attack",
+              "simcAction": "auto_attack",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
         }
       ]
     },
     {
       "id": 12,
       "name": "Demon Hunter",
+      "nameRu": "Охотник на демонов",
       "color": "#A330C9",
       "specs": [
         {
           "id": 577,
+          "key": "demon_hunter_havoc",
           "name": "Havoc",
+          "nameRu": "Истребление",
           "role": "DPS",
+          "attackType": "melee",
+          "primaryStat": "agility",
           "resourceType": "Fury",
-          "simulationSupport": "experimental",
+          "readiness": "implemented",
+          "simulationSupport": "implemented",
+          "canAccurate": true,
+          "canFastEstimate": true,
           "presetProfile": "MID1_Demon_Hunter_Havoc.simc",
-          "defaultHeroTalent": "felscarred",
-          "notes": "MID1 talents= hash fails init on pinned SimC; engine retries without hash. Prefer talent import.",
+          "defaultHeroTalent": "aldrachi_reaver",
+          "notes": "MID1 talents= hash may fail init on pin; engine retries with hero_talents=.",
           "heroTalentTrees": [
-            {
-              "id": "felscarred",
-              "name": "Fel-Scarred",
-              "simcToken": "felscarred"
-            },
             {
               "id": "aldrachi_reaver",
               "name": "Aldrachi Reaver",
               "simcToken": "aldrachi_reaver"
+            },
+            {
+              "id": "fel_scarred",
+              "name": "Fel-Scarred",
+              "simcToken": "fel_scarred"
             }
           ],
           "abilities": [
             {
-              "id": "eye_beam",
-              "name": "Eye Beam",
-              "simcAction": "eye_beam",
+              "id": "chaos_strike",
+              "name": "Chaos Strike",
+              "nameRu": "Chaos Strike",
+              "simcAction": "chaos_strike",
               "category": "active",
-              "optional": true,
-              "aoeClass": "aoe"
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             },
             {
               "id": "blade_dance",
               "name": "Blade Dance",
+              "nameRu": "Blade Dance",
               "simcAction": "blade_dance",
               "category": "active",
               "optional": false,
-              "aoeClass": "aoe"
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
             },
             {
-              "id": "chaos_strike",
-              "name": "Chaos Strike",
-              "simcAction": "chaos_strike",
+              "id": "death_sweep",
+              "name": "Death Sweep",
+              "nameRu": "Death Sweep",
+              "simcAction": "death_sweep",
               "category": "active",
-              "optional": false,
-              "aoeClass": "single_target"
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "eye_beam",
+              "name": "Eye Beam",
+              "nameRu": "Eye Beam",
+              "simcAction": "eye_beam",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "essence_break",
+              "name": "Essence Break",
+              "nameRu": "Essence Break",
+              "simcAction": "essence_break",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "cleave",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "immolation_aura",
+              "name": "Immolation Aura",
+              "nameRu": "Immolation Aura",
+              "simcAction": "immolation_aura",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
             },
             {
               "id": "metamorphosis",
               "name": "Metamorphosis",
+              "nameRu": "Metamorphosis",
               "simcAction": "metamorphosis",
               "category": "active",
               "optional": true,
               "aoeClass": "single_target",
-              "cooldown": 180
+              "dataStatus": "implemented"
             },
             {
-              "id": "the_hunt",
-              "name": "The Hunt",
-              "simcAction": "the_hunt",
+              "id": "throw_glaive",
+              "name": "Throw Glaive",
+              "nameRu": "Throw Glaive",
+              "simcAction": "throw_glaive",
               "category": "active",
               "optional": true,
-              "aoeClass": "single_target"
+              "aoeClass": "cleave",
+              "dataStatus": "implemented"
             },
             {
               "id": "auto_attack",
               "name": "Auto Attack",
+              "nameRu": "Auto Attack",
               "simcAction": "auto_attack",
-              "category": "system",
+              "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             }
-          ]
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
         },
         {
           "id": 581,
+          "key": "demon_hunter_vengeance",
           "name": "Vengeance",
+          "nameRu": "Месть",
           "role": "TANK",
+          "attackType": "melee",
+          "primaryStat": "agility",
           "resourceType": "Fury",
-          "simulationSupport": "experimental",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": true,
+          "canFastEstimate": true,
           "presetProfile": "MID1_Demon_Hunter_Vengeance.simc",
-          "heroTalentTrees": [],
-          "abilities": []
-        },
-        {
-          "id": 1480,
-          "name": "Devourer",
-          "role": "DPS",
-          "resourceType": "Fury",
-          "simulationSupport": "experimental",
-          "presetProfile": "MID1_Demon_Hunter_Devourer.simc",
-          "notes": "Midnight specialization; verify Blizzard specId against live build when wiring Armory imports.",
+          "defaultHeroTalent": null,
+          "notes": "Offensive tank simulation; incoming-damage procs depend on encounter settings.",
           "heroTalentTrees": [],
           "abilities": [
             {
+              "id": "soul_cleave",
+              "name": "Soul Cleave",
+              "nameRu": "Soul Cleave",
+              "simcAction": "soul_cleave",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "cleave",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "spirit_bomb",
+              "name": "Spirit Bomb",
+              "nameRu": "Spirit Bomb",
+              "simcAction": "spirit_bomb",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "fracture",
+              "name": "Fracture",
+              "nameRu": "Fracture",
+              "simcAction": "fracture",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "immolation_aura",
+              "name": "Immolation Aura",
+              "nameRu": "Immolation Aura",
+              "simcAction": "immolation_aura",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "fel_devastation",
+              "name": "Fel Devastation",
+              "nameRu": "Fel Devastation",
+              "simcAction": "fel_devastation",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "fiery_brand",
+              "name": "Fiery Brand",
+              "nameRu": "Fiery Brand",
+              "simcAction": "fiery_brand",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "sigil_of_flame",
+              "name": "Sigil of Flame",
+              "nameRu": "Sigil of Flame",
+              "simcAction": "sigil_of_flame",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
               "id": "auto_attack",
               "name": "Auto Attack",
+              "nameRu": "Auto Attack",
               "simcAction": "auto_attack",
-              "category": "system",
+              "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             }
-          ]
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": true
+        },
+        {
+          "id": 1480,
+          "key": "demon_hunter_devourer",
+          "name": "Devourer",
+          "nameRu": "Пожиратель",
+          "role": "DPS",
+          "attackType": "ranged",
+          "primaryStat": "agility",
+          "resourceType": "Fury/Souls",
+          "readiness": "implemented",
+          "simulationSupport": "implemented",
+          "canAccurate": true,
+          "canFastEstimate": true,
+          "presetProfile": "MID1_Demon_Hunter_Devourer.simc",
+          "defaultHeroTalent": "annihilator",
+          "notes": "Midnight third DH spec. Dual Fury/Souls resource loop: Consume → Reap → Void Ray → Void Metamorphosis → Collapsing Star. Prefer Annihilator; Void-Scarred reworked in 12.1.5.",
+          "heroTalentTrees": [
+            {
+              "id": "annihilator",
+              "name": "Annihilator",
+              "simcToken": "annihilator"
+            },
+            {
+              "id": "void_scarred",
+              "name": "Void-Scarred",
+              "simcToken": "void_scarred"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "consume",
+              "name": "Consume",
+              "nameRu": "Consume",
+              "simcAction": "consume",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "reap",
+              "name": "Reap",
+              "nameRu": "Reap",
+              "simcAction": "reap",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "cleave",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "void_ray",
+              "name": "Void Ray",
+              "nameRu": "Void Ray",
+              "simcAction": "void_ray",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "collapsing_star",
+              "name": "Collapsing Star",
+              "nameRu": "Collapsing Star",
+              "simcAction": "collapsing_star",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "devour",
+              "name": "Devour",
+              "nameRu": "Devour",
+              "simcAction": "devour",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "cull",
+              "name": "Cull",
+              "nameRu": "Cull",
+              "simcAction": "cull",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "cleave",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "eradicate",
+              "name": "Eradicate",
+              "nameRu": "Eradicate",
+              "simcAction": "eradicate",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "void_metamorphosis",
+              "name": "Void Metamorphosis",
+              "nameRu": "Void Metamorphosis",
+              "simcAction": "void_metamorphosis",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "auto_attack",
+              "name": "Auto Attack",
+              "nameRu": "Auto Attack",
+              "simcAction": "auto_attack",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Druid",
+      "nameRu": "Друид",
+      "color": "#FF7D0A",
+      "specs": [
+        {
+          "id": 102,
+          "key": "druid_balance",
+          "name": "Balance",
+          "nameRu": "Баланс",
+          "role": "DPS",
+          "attackType": "ranged",
+          "primaryStat": "intellect",
+          "resourceType": "Astral Power",
+          "readiness": "implemented",
+          "simulationSupport": "implemented",
+          "canAccurate": true,
+          "canFastEstimate": true,
+          "presetProfile": "MID1_Druid_Balance.simc",
+          "defaultHeroTalent": "elunes_chosen",
+          "notes": null,
+          "heroTalentTrees": [
+            {
+              "id": "elunes_chosen",
+              "name": "Elune's Chosen",
+              "simcToken": "elunes_chosen"
+            },
+            {
+              "id": "keeper_of_the_grove",
+              "name": "Keeper of the Grove",
+              "simcToken": "keeper_of_the_grove"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "wrath",
+              "name": "Wrath",
+              "nameRu": "Wrath",
+              "simcAction": "wrath",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "starfire",
+              "name": "Starfire",
+              "nameRu": "Starfire",
+              "simcAction": "starfire",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "starsurge",
+              "name": "Starsurge",
+              "nameRu": "Starsurge",
+              "simcAction": "starsurge",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "starfall",
+              "name": "Starfall",
+              "nameRu": "Starfall",
+              "simcAction": "starfall",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "moonfire",
+              "name": "Moonfire",
+              "nameRu": "Moonfire",
+              "simcAction": "moonfire",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "sunfire",
+              "name": "Sunfire",
+              "nameRu": "Sunfire",
+              "simcAction": "sunfire",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "celestial_alignment",
+              "name": "Celestial Alignment",
+              "nameRu": "Celestial Alignment",
+              "simcAction": "celestial_alignment",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "fury_of_elune",
+              "name": "Fury of Elune",
+              "nameRu": "Fury of Elune",
+              "simcAction": "fury_of_elune",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "force_of_nature",
+              "name": "Force of Nature",
+              "nameRu": "Force of Nature",
+              "simcAction": "force_of_nature",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
+        },
+        {
+          "id": 103,
+          "key": "druid_feral",
+          "name": "Feral",
+          "nameRu": "Сила зверя",
+          "role": "DPS",
+          "attackType": "melee",
+          "primaryStat": "agility",
+          "resourceType": "Energy/Combo Points",
+          "readiness": "implemented",
+          "simulationSupport": "implemented",
+          "canAccurate": true,
+          "canFastEstimate": true,
+          "presetProfile": "MID1_Druid_Feral.simc",
+          "defaultHeroTalent": "druid_of_the_claw",
+          "notes": null,
+          "heroTalentTrees": [
+            {
+              "id": "druid_of_the_claw",
+              "name": "Druid of the Claw",
+              "simcToken": "druid_of_the_claw"
+            },
+            {
+              "id": "wildstalker",
+              "name": "Wildstalker",
+              "simcToken": "wildstalker"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "shred",
+              "name": "Shred",
+              "nameRu": "Shred",
+              "simcAction": "shred",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "rake",
+              "name": "Rake",
+              "nameRu": "Rake",
+              "simcAction": "rake",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "rip",
+              "name": "Rip",
+              "nameRu": "Rip",
+              "simcAction": "rip",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "ferocious_bite",
+              "name": "Ferocious Bite",
+              "nameRu": "Ferocious Bite",
+              "simcAction": "ferocious_bite",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "thrash",
+              "name": "Thrash",
+              "nameRu": "Thrash",
+              "simcAction": "thrash",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "primal_wrath",
+              "name": "Primal Wrath",
+              "nameRu": "Primal Wrath",
+              "simcAction": "primal_wrath",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "tigers_fury",
+              "name": "Tiger's Fury",
+              "nameRu": "Tiger's Fury",
+              "simcAction": "tigers_fury",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "berserk",
+              "name": "Berserk",
+              "nameRu": "Berserk",
+              "simcAction": "berserk",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "auto_attack",
+              "name": "Auto Attack",
+              "nameRu": "Auto Attack",
+              "simcAction": "auto_attack",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
+        },
+        {
+          "id": 104,
+          "key": "druid_guardian",
+          "name": "Guardian",
+          "nameRu": "Страж",
+          "role": "TANK",
+          "attackType": "melee",
+          "primaryStat": "agility",
+          "resourceType": "Rage",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": null,
+          "notes": "Offensive tank simulation; incoming-damage procs depend on encounter settings.",
+          "heroTalentTrees": [],
+          "abilities": [
+            {
+              "id": "mangle",
+              "name": "Mangle",
+              "nameRu": "Mangle",
+              "simcAction": "mangle",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "thrash",
+              "name": "Thrash",
+              "nameRu": "Thrash",
+              "simcAction": "thrash",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "moonfire",
+              "name": "Moonfire",
+              "nameRu": "Moonfire",
+              "simcAction": "moonfire",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "maul",
+              "name": "Maul",
+              "nameRu": "Maul",
+              "simcAction": "maul",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "raze",
+              "name": "Raze",
+              "nameRu": "Raze",
+              "simcAction": "raze",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "auto_attack",
+              "name": "Auto Attack",
+              "nameRu": "Auto Attack",
+              "simcAction": "auto_attack",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": true
+        },
+        {
+          "id": 105,
+          "key": "druid_restoration",
+          "name": "Restoration",
+          "nameRu": "Исцеление",
+          "role": "HEALER",
+          "attackType": "melee",
+          "primaryStat": "intellect",
+          "resourceType": "Mana",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": null,
+          "notes": "Healer DPS requires damageActivityShare; damage-only results are labeled explicitly.",
+          "heroTalentTrees": [],
+          "abilities": [
+            {
+              "id": "wrath",
+              "name": "Wrath",
+              "nameRu": "Wrath",
+              "simcAction": "wrath",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "starfire",
+              "name": "Starfire",
+              "nameRu": "Starfire",
+              "simcAction": "starfire",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "moonfire",
+              "name": "Moonfire",
+              "nameRu": "Moonfire",
+              "simcAction": "moonfire",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "sunfire",
+              "name": "Sunfire",
+              "nameRu": "Sunfire",
+              "simcAction": "sunfire",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "cat_form_shred",
+              "name": "Shred (Cat)",
+              "nameRu": "Shred (Cat)",
+              "simcAction": "cat_form_shred",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 0.3,
+          "offenseTank": false
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Evoker",
+      "nameRu": "Пробудитель",
+      "color": "#33937F",
+      "specs": [
+        {
+          "id": 1467,
+          "key": "evoker_devastation",
+          "name": "Devastation",
+          "nameRu": "Опустошение",
+          "role": "DPS",
+          "attackType": "ranged",
+          "primaryStat": "intellect",
+          "resourceType": "Essence",
+          "readiness": "implemented",
+          "simulationSupport": "implemented",
+          "canAccurate": true,
+          "canFastEstimate": true,
+          "presetProfile": "MID1_Evoker_Devastation.simc",
+          "defaultHeroTalent": "flameshaper",
+          "notes": null,
+          "heroTalentTrees": [
+            {
+              "id": "flameshaper",
+              "name": "Flameshaper",
+              "simcToken": "flameshaper"
+            },
+            {
+              "id": "scalecommander",
+              "name": "Scalecommander",
+              "simcToken": "scalecommander"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "living_flame",
+              "name": "Living Flame",
+              "nameRu": "Living Flame",
+              "simcAction": "living_flame",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "azure_strike",
+              "name": "Azure Strike",
+              "nameRu": "Azure Strike",
+              "simcAction": "azure_strike",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "cleave",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "disintegrate",
+              "name": "Disintegrate",
+              "nameRu": "Disintegrate",
+              "simcAction": "disintegrate",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "pyre",
+              "name": "Pyre",
+              "nameRu": "Pyre",
+              "simcAction": "pyre",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "fire_breath",
+              "name": "Fire Breath",
+              "nameRu": "Fire Breath",
+              "simcAction": "fire_breath",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "eternity_surge",
+              "name": "Eternity Surge",
+              "nameRu": "Eternity Surge",
+              "simcAction": "eternity_surge",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "cleave",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "dragonrage",
+              "name": "Dragonrage",
+              "nameRu": "Dragonrage",
+              "simcAction": "dragonrage",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "deep_breath",
+              "name": "Deep Breath",
+              "nameRu": "Deep Breath",
+              "simcAction": "deep_breath",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
+        },
+        {
+          "id": 1468,
+          "key": "evoker_preservation",
+          "name": "Preservation",
+          "nameRu": "Сохранение",
+          "role": "HEALER",
+          "attackType": "ranged",
+          "primaryStat": "intellect",
+          "resourceType": "Essence",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": null,
+          "notes": "Healer DPS requires damageActivityShare; damage-only results are labeled explicitly.",
+          "heroTalentTrees": [],
+          "abilities": [
+            {
+              "id": "living_flame",
+              "name": "Living Flame",
+              "nameRu": "Living Flame",
+              "simcAction": "living_flame",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "fire_breath",
+              "name": "Fire Breath",
+              "nameRu": "Fire Breath",
+              "simcAction": "fire_breath",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "azure_strike",
+              "name": "Azure Strike",
+              "nameRu": "Azure Strike",
+              "simcAction": "azure_strike",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "cleave",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "deep_breath",
+              "name": "Deep Breath",
+              "nameRu": "Deep Breath",
+              "simcAction": "deep_breath",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 0.3,
+          "offenseTank": false
+        },
+        {
+          "id": 1473,
+          "key": "evoker_augmentation",
+          "name": "Augmentation",
+          "nameRu": "Усиление",
+          "role": "DPS",
+          "attackType": "ranged",
+          "primaryStat": "intellect",
+          "resourceType": "Essence",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": "scalecommander",
+          "notes": "Personal DPS alone understates contribution. Ally attribution requires party model inputs; without allies the UI shows Personal DPS only with a completeness warning.",
+          "heroTalentTrees": [
+            {
+              "id": "scalecommander",
+              "name": "Scalecommander",
+              "simcToken": "scalecommander"
+            },
+            {
+              "id": "chronowarden",
+              "name": "Chronowarden",
+              "simcToken": "chronowarden"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "living_flame",
+              "name": "Living Flame",
+              "nameRu": "Living Flame",
+              "simcAction": "living_flame",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "eruption",
+              "name": "Eruption",
+              "nameRu": "Eruption",
+              "simcAction": "eruption",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "fire_breath",
+              "name": "Fire Breath",
+              "nameRu": "Fire Breath",
+              "simcAction": "fire_breath",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "upheaval",
+              "name": "Upheaval",
+              "nameRu": "Upheaval",
+              "simcAction": "upheaval",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "ebon_might",
+              "name": "Ebon Might",
+              "nameRu": "Ebon Might",
+              "simcAction": "ebon_might",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "prescience",
+              "name": "Prescience",
+              "nameRu": "Prescience",
+              "simcAction": "prescience",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "breath_of_the_eons",
+              "name": "Breath of the Eons",
+              "nameRu": "Breath of the Eons",
+              "simcAction": "breath_of_the_eons",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": true,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Hunter",
+      "nameRu": "Охотник",
+      "color": "#ABD473",
+      "specs": [
+        {
+          "id": 253,
+          "key": "hunter_beast_mastery",
+          "name": "Beast Mastery",
+          "nameRu": "Повелитель зверей",
+          "role": "DPS",
+          "attackType": "ranged",
+          "primaryStat": "agility",
+          "resourceType": "Focus",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": "pack_leader",
+          "notes": null,
+          "heroTalentTrees": [
+            {
+              "id": "pack_leader",
+              "name": "Pack Leader",
+              "simcToken": "pack_leader"
+            },
+            {
+              "id": "dark_ranger",
+              "name": "Dark Ranger",
+              "simcToken": "dark_ranger"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "kill_command",
+              "name": "Kill Command",
+              "nameRu": "Kill Command",
+              "simcAction": "kill_command",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "barbed_shot",
+              "name": "Barbed Shot",
+              "nameRu": "Barbed Shot",
+              "simcAction": "barbed_shot",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "cobra_shot",
+              "name": "Cobra Shot",
+              "nameRu": "Cobra Shot",
+              "simcAction": "cobra_shot",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "multi_shot",
+              "name": "Multi-Shot",
+              "nameRu": "Multi-Shot",
+              "simcAction": "multi_shot",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "bestial_wrath",
+              "name": "Bestial Wrath",
+              "nameRu": "Bestial Wrath",
+              "simcAction": "bestial_wrath",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "call_of_the_wild",
+              "name": "Call of the Wild",
+              "nameRu": "Call of the Wild",
+              "simcAction": "call_of_the_wild",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "kill_shot",
+              "name": "Kill Shot",
+              "nameRu": "Kill Shot",
+              "simcAction": "kill_shot",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "dire_beast",
+              "name": "Dire Beast",
+              "nameRu": "Dire Beast",
+              "simcAction": "dire_beast",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
+        },
+        {
+          "id": 254,
+          "key": "hunter_marksmanship",
+          "name": "Marksmanship",
+          "nameRu": "Стрельба",
+          "role": "DPS",
+          "attackType": "ranged",
+          "primaryStat": "agility",
+          "resourceType": "Focus",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": "dark_ranger",
+          "notes": "Blood Fletching / Apex crit interactions depend on selected talents in the SimC profile.",
+          "heroTalentTrees": [
+            {
+              "id": "dark_ranger",
+              "name": "Dark Ranger",
+              "simcToken": "dark_ranger"
+            },
+            {
+              "id": "sentinel",
+              "name": "Sentinel",
+              "simcToken": "sentinel"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "aimed_shot",
+              "name": "Aimed Shot",
+              "nameRu": "Aimed Shot",
+              "simcAction": "aimed_shot",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "rapid_fire",
+              "name": "Rapid Fire",
+              "nameRu": "Rapid Fire",
+              "simcAction": "rapid_fire",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "arcane_shot",
+              "name": "Arcane Shot",
+              "nameRu": "Arcane Shot",
+              "simcAction": "arcane_shot",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "multi_shot",
+              "name": "Multi-Shot",
+              "nameRu": "Multi-Shot",
+              "simcAction": "multi_shot",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "explosive_shot",
+              "name": "Explosive Shot",
+              "nameRu": "Explosive Shot",
+              "simcAction": "explosive_shot",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "trueshot",
+              "name": "Trueshot",
+              "nameRu": "Trueshot",
+              "simcAction": "trueshot",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "kill_shot",
+              "name": "Kill Shot",
+              "nameRu": "Kill Shot",
+              "simcAction": "kill_shot",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "volley",
+              "name": "Volley",
+              "nameRu": "Volley",
+              "simcAction": "volley",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
+        },
+        {
+          "id": 255,
+          "key": "hunter_survival",
+          "name": "Survival",
+          "nameRu": "Выживание",
+          "role": "DPS",
+          "attackType": "melee",
+          "primaryStat": "agility",
+          "resourceType": "Focus",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": "sentinel",
+          "notes": null,
+          "heroTalentTrees": [
+            {
+              "id": "sentinel",
+              "name": "Sentinel",
+              "simcToken": "sentinel"
+            },
+            {
+              "id": "pack_leader",
+              "name": "Pack Leader",
+              "simcToken": "pack_leader"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "kill_command",
+              "name": "Kill Command",
+              "nameRu": "Kill Command",
+              "simcAction": "kill_command",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "raptor_strike",
+              "name": "Raptor Strike",
+              "nameRu": "Raptor Strike",
+              "simcAction": "raptor_strike",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "wildfire_bomb",
+              "name": "Wildfire Bomb",
+              "nameRu": "Wildfire Bomb",
+              "simcAction": "wildfire_bomb",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "butchery",
+              "name": "Butchery",
+              "nameRu": "Butchery",
+              "simcAction": "butchery",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "flanking_strike",
+              "name": "Flanking Strike",
+              "nameRu": "Flanking Strike",
+              "simcAction": "flanking_strike",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "coordinated_assault",
+              "name": "Coordinated Assault",
+              "nameRu": "Coordinated Assault",
+              "simcAction": "coordinated_assault",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "kill_shot",
+              "name": "Kill Shot",
+              "nameRu": "Kill Shot",
+              "simcAction": "kill_shot",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "auto_attack",
+              "name": "Auto Attack",
+              "nameRu": "Auto Attack",
+              "simcAction": "auto_attack",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Mage",
+      "nameRu": "Маг",
+      "color": "#69CCF0",
+      "specs": [
+        {
+          "id": 62,
+          "key": "mage_arcane",
+          "name": "Arcane",
+          "nameRu": "Тайная магия",
+          "role": "DPS",
+          "attackType": "ranged",
+          "primaryStat": "intellect",
+          "resourceType": "Mana/Arcane Charges",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": "sunfury",
+          "notes": "Arcane Charges + mana conserve/burst model. Accurate simulation requires a MID preset on the pinned SimC; until imported, Fast Estimate uses curated rotation weights. Status: partial.",
+          "heroTalentTrees": [
+            {
+              "id": "sunfury",
+              "name": "Sunfury",
+              "simcToken": "sunfury"
+            },
+            {
+              "id": "spellslinger",
+              "name": "Spellslinger",
+              "simcToken": "spellslinger"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "arcane_blast",
+              "name": "Arcane Blast",
+              "nameRu": "Arcane Blast",
+              "simcAction": "arcane_blast",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "arcane_missiles",
+              "name": "Arcane Missiles",
+              "nameRu": "Arcane Missiles",
+              "simcAction": "arcane_missiles",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "arcane_barrage",
+              "name": "Arcane Barrage",
+              "nameRu": "Arcane Barrage",
+              "simcAction": "arcane_barrage",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "cleave",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "arcane_surge",
+              "name": "Arcane Surge",
+              "nameRu": "Arcane Surge",
+              "simcAction": "arcane_surge",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "arcane_orb",
+              "name": "Arcane Orb",
+              "nameRu": "Arcane Orb",
+              "simcAction": "arcane_orb",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "touch_of_the_magi",
+              "name": "Touch of the Magi",
+              "nameRu": "Touch of the Magi",
+              "simcAction": "touch_of_the_magi",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "presence_of_mind",
+              "name": "Presence of Mind",
+              "nameRu": "Presence of Mind",
+              "simcAction": "presence_of_mind",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "evocation",
+              "name": "Evocation",
+              "nameRu": "Evocation",
+              "simcAction": "evocation",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
+        },
+        {
+          "id": 63,
+          "key": "mage_fire",
+          "name": "Fire",
+          "nameRu": "Огонь",
+          "role": "DPS",
+          "attackType": "ranged",
+          "primaryStat": "intellect",
+          "resourceType": "Mana",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": "sunfury",
+          "notes": null,
+          "heroTalentTrees": [
+            {
+              "id": "sunfury",
+              "name": "Sunfury",
+              "simcToken": "sunfury"
+            },
+            {
+              "id": "frostfire",
+              "name": "Frostfire",
+              "simcToken": "frostfire"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "fireball",
+              "name": "Fireball",
+              "nameRu": "Fireball",
+              "simcAction": "fireball",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "pyroblast",
+              "name": "Pyroblast",
+              "nameRu": "Pyroblast",
+              "simcAction": "pyroblast",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "fire_blast",
+              "name": "Fire Blast",
+              "nameRu": "Fire Blast",
+              "simcAction": "fire_blast",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "phoenix_flames",
+              "name": "Phoenix Flames",
+              "nameRu": "Phoenix Flames",
+              "simcAction": "phoenix_flames",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "cleave",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "flamestrike",
+              "name": "Flamestrike",
+              "nameRu": "Flamestrike",
+              "simcAction": "flamestrike",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "combustion",
+              "name": "Combustion",
+              "nameRu": "Combustion",
+              "simcAction": "combustion",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "scorch",
+              "name": "Scorch",
+              "nameRu": "Scorch",
+              "simcAction": "scorch",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
+        },
+        {
+          "id": 64,
+          "key": "mage_frost",
+          "name": "Frost",
+          "nameRu": "Лёд",
+          "role": "DPS",
+          "attackType": "ranged",
+          "primaryStat": "intellect",
+          "resourceType": "Mana",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": "spellslinger",
+          "notes": null,
+          "heroTalentTrees": [
+            {
+              "id": "spellslinger",
+              "name": "Spellslinger",
+              "simcToken": "spellslinger"
+            },
+            {
+              "id": "frostfire",
+              "name": "Frostfire",
+              "simcToken": "frostfire"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "frostbolt",
+              "name": "Frostbolt",
+              "nameRu": "Frostbolt",
+              "simcAction": "frostbolt",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "ice_lance",
+              "name": "Ice Lance",
+              "nameRu": "Ice Lance",
+              "simcAction": "ice_lance",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "flurry",
+              "name": "Flurry",
+              "nameRu": "Flurry",
+              "simcAction": "flurry",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "frozen_orb",
+              "name": "Frozen Orb",
+              "nameRu": "Frozen Orb",
+              "simcAction": "frozen_orb",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "blizzard",
+              "name": "Blizzard",
+              "nameRu": "Blizzard",
+              "simcAction": "blizzard",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "comet_storm",
+              "name": "Comet Storm",
+              "nameRu": "Comet Storm",
+              "simcAction": "comet_storm",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "icy_veins",
+              "name": "Icy Veins",
+              "nameRu": "Icy Veins",
+              "simcAction": "icy_veins",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "ray_of_frost",
+              "name": "Ray of Frost",
+              "nameRu": "Ray of Frost",
+              "simcAction": "ray_of_frost",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Monk",
+      "nameRu": "Монах",
+      "color": "#00FF96",
+      "specs": [
+        {
+          "id": 268,
+          "key": "monk_brewmaster",
+          "name": "Brewmaster",
+          "nameRu": "Хмелевар",
+          "role": "TANK",
+          "attackType": "melee",
+          "primaryStat": "agility",
+          "resourceType": "Energy/Chi",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": null,
+          "notes": "Offensive tank simulation; incoming-damage procs depend on encounter settings.",
+          "heroTalentTrees": [],
+          "abilities": [
+            {
+              "id": "keg_smash",
+              "name": "Keg Smash",
+              "nameRu": "Keg Smash",
+              "simcAction": "keg_smash",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "blackout_kick",
+              "name": "Blackout Kick",
+              "nameRu": "Blackout Kick",
+              "simcAction": "blackout_kick",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "tiger_palm",
+              "name": "Tiger Palm",
+              "nameRu": "Tiger Palm",
+              "simcAction": "tiger_palm",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "breath_of_fire",
+              "name": "Breath of Fire",
+              "nameRu": "Breath of Fire",
+              "simcAction": "breath_of_fire",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "rushing_jade_wind",
+              "name": "Rushing Jade Wind",
+              "nameRu": "Rushing Jade Wind",
+              "simcAction": "rushing_jade_wind",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "auto_attack",
+              "name": "Auto Attack",
+              "nameRu": "Auto Attack",
+              "simcAction": "auto_attack",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": true
+        },
+        {
+          "id": 270,
+          "key": "monk_mistweaver",
+          "name": "Mistweaver",
+          "nameRu": "Ткач туманов",
+          "role": "HEALER",
+          "attackType": "melee",
+          "primaryStat": "intellect",
+          "resourceType": "Mana/Chi",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": null,
+          "notes": "Healer DPS requires damageActivityShare; damage-only results are labeled explicitly.",
+          "heroTalentTrees": [],
+          "abilities": [
+            {
+              "id": "tiger_palm",
+              "name": "Tiger Palm",
+              "nameRu": "Tiger Palm",
+              "simcAction": "tiger_palm",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "rising_sun_kick",
+              "name": "Rising Sun Kick",
+              "nameRu": "Rising Sun Kick",
+              "simcAction": "rising_sun_kick",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "blackout_kick",
+              "name": "Blackout Kick",
+              "nameRu": "Blackout Kick",
+              "simcAction": "blackout_kick",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "spinning_crane_kick",
+              "name": "Spinning Crane Kick",
+              "nameRu": "Spinning Crane Kick",
+              "simcAction": "spinning_crane_kick",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "auto_attack",
+              "name": "Auto Attack",
+              "nameRu": "Auto Attack",
+              "simcAction": "auto_attack",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 0.3,
+          "offenseTank": false
+        },
+        {
+          "id": 269,
+          "key": "monk_windwalker",
+          "name": "Windwalker",
+          "nameRu": "Танцующий с ветром",
+          "role": "DPS",
+          "attackType": "melee",
+          "primaryStat": "agility",
+          "resourceType": "Energy/Chi",
+          "readiness": "implemented",
+          "simulationSupport": "implemented",
+          "canAccurate": true,
+          "canFastEstimate": true,
+          "presetProfile": "MID1_Monk_Windwalker.simc",
+          "defaultHeroTalent": "conduit_of_the_celestials",
+          "notes": null,
+          "heroTalentTrees": [
+            {
+              "id": "conduit_of_the_celestials",
+              "name": "Conduit of the Celestials",
+              "simcToken": "conduit_of_the_celestials"
+            },
+            {
+              "id": "shado_pan",
+              "name": "Shado-Pan",
+              "simcToken": "shado_pan"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "tiger_palm",
+              "name": "Tiger Palm",
+              "nameRu": "Tiger Palm",
+              "simcAction": "tiger_palm",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "rising_sun_kick",
+              "name": "Rising Sun Kick",
+              "nameRu": "Rising Sun Kick",
+              "simcAction": "rising_sun_kick",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "fists_of_fury",
+              "name": "Fists of Fury",
+              "nameRu": "Fists of Fury",
+              "simcAction": "fists_of_fury",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "blackout_kick",
+              "name": "Blackout Kick",
+              "nameRu": "Blackout Kick",
+              "simcAction": "blackout_kick",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "spinning_crane_kick",
+              "name": "Spinning Crane Kick",
+              "nameRu": "Spinning Crane Kick",
+              "simcAction": "spinning_crane_kick",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "whirling_dragon_punch",
+              "name": "Whirling Dragon Punch",
+              "nameRu": "Whirling Dragon Punch",
+              "simcAction": "whirling_dragon_punch",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "invoke_xuen_the_white_tiger",
+              "name": "Invoke Xuen",
+              "nameRu": "Invoke Xuen",
+              "simcAction": "invoke_xuen_the_white_tiger",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "slicing_winds",
+              "name": "Slicing Winds",
+              "nameRu": "Slicing Winds",
+              "simcAction": "slicing_winds",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "auto_attack",
+              "name": "Auto Attack",
+              "nameRu": "Auto Attack",
+              "simcAction": "auto_attack",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Paladin",
+      "nameRu": "Паладин",
+      "color": "#F58CBA",
+      "specs": [
+        {
+          "id": 65,
+          "key": "paladin_holy",
+          "name": "Holy",
+          "nameRu": "Свет",
+          "role": "HEALER",
+          "attackType": "melee",
+          "primaryStat": "intellect",
+          "resourceType": "Mana",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": null,
+          "notes": "Healer DPS requires damageActivityShare; damage-only results are labeled explicitly.",
+          "heroTalentTrees": [],
+          "abilities": [
+            {
+              "id": "judgment",
+              "name": "Judgment",
+              "nameRu": "Judgment",
+              "simcAction": "judgment",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "crusader_strike",
+              "name": "Crusader Strike",
+              "nameRu": "Crusader Strike",
+              "simcAction": "crusader_strike",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "holy_shock",
+              "name": "Holy Shock",
+              "nameRu": "Holy Shock",
+              "simcAction": "holy_shock",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "consecration",
+              "name": "Consecration",
+              "nameRu": "Consecration",
+              "simcAction": "consecration",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "auto_attack",
+              "name": "Auto Attack",
+              "nameRu": "Auto Attack",
+              "simcAction": "auto_attack",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 0.3,
+          "offenseTank": false
+        },
+        {
+          "id": 66,
+          "key": "paladin_protection",
+          "name": "Protection",
+          "nameRu": "Защита",
+          "role": "TANK",
+          "attackType": "melee",
+          "primaryStat": "strength",
+          "resourceType": "Mana/Holy Power",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": null,
+          "notes": "Offensive tank simulation; incoming-damage procs depend on encounter settings.",
+          "heroTalentTrees": [],
+          "abilities": [
+            {
+              "id": "shield_of_the_righteous",
+              "name": "Shield of the Righteous",
+              "nameRu": "Shield of the Righteous",
+              "simcAction": "shield_of_the_righteous",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "judgment",
+              "name": "Judgment",
+              "nameRu": "Judgment",
+              "simcAction": "judgment",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "avengers_shield",
+              "name": "Avenger's Shield",
+              "nameRu": "Avenger's Shield",
+              "simcAction": "avengers_shield",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "consecration",
+              "name": "Consecration",
+              "nameRu": "Consecration",
+              "simcAction": "consecration",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "hammer_of_the_righteous",
+              "name": "Hammer of the Righteous",
+              "nameRu": "Hammer of the Righteous",
+              "simcAction": "hammer_of_the_righteous",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "auto_attack",
+              "name": "Auto Attack",
+              "nameRu": "Auto Attack",
+              "simcAction": "auto_attack",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": true
+        },
+        {
+          "id": 70,
+          "key": "paladin_retribution",
+          "name": "Retribution",
+          "nameRu": "Воздаяние",
+          "role": "DPS",
+          "attackType": "melee",
+          "primaryStat": "strength",
+          "resourceType": "Holy Power",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": "templar",
+          "notes": null,
+          "heroTalentTrees": [
+            {
+              "id": "templar",
+              "name": "Templar",
+              "simcToken": "templar"
+            },
+            {
+              "id": "herald_of_the_sun",
+              "name": "Herald of the Sun",
+              "simcToken": "herald_of_the_sun"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "templar_strike",
+              "name": "Templar Strike",
+              "nameRu": "Templar Strike",
+              "simcAction": "templar_strike",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "blade_of_justice",
+              "name": "Blade of Justice",
+              "nameRu": "Blade of Justice",
+              "simcAction": "blade_of_justice",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "judgment",
+              "name": "Judgment",
+              "nameRu": "Judgment",
+              "simcAction": "judgment",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "final_verdict",
+              "name": "Final Verdict",
+              "nameRu": "Final Verdict",
+              "simcAction": "final_verdict",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "divine_storm",
+              "name": "Divine Storm",
+              "nameRu": "Divine Storm",
+              "simcAction": "divine_storm",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "wake_of_ashes",
+              "name": "Wake of Ashes",
+              "nameRu": "Wake of Ashes",
+              "simcAction": "wake_of_ashes",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "avenging_wrath",
+              "name": "Avenging Wrath",
+              "nameRu": "Avenging Wrath",
+              "simcAction": "avenging_wrath",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "auto_attack",
+              "name": "Auto Attack",
+              "nameRu": "Auto Attack",
+              "simcAction": "auto_attack",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
         }
       ]
     },
     {
       "id": 5,
       "name": "Priest",
+      "nameRu": "Жрец",
       "color": "#FFFFFF",
       "specs": [
         {
+          "id": 256,
+          "key": "priest_discipline",
+          "name": "Discipline",
+          "nameRu": "Послушание",
+          "role": "HEALER",
+          "attackType": "ranged",
+          "primaryStat": "intellect",
+          "resourceType": "Mana",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": null,
+          "notes": "Healer DPS requires damageActivityShare; damage-only results are labeled explicitly.",
+          "heroTalentTrees": [],
+          "abilities": [
+            {
+              "id": "smite",
+              "name": "Smite",
+              "nameRu": "Smite",
+              "simcAction": "smite",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "penance",
+              "name": "Penance",
+              "nameRu": "Penance",
+              "simcAction": "penance",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "shadow_word_pain",
+              "name": "Shadow Word: Pain",
+              "nameRu": "Shadow Word: Pain",
+              "simcAction": "shadow_word_pain",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "holy_nova",
+              "name": "Holy Nova",
+              "nameRu": "Holy Nova",
+              "simcAction": "holy_nova",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "schism",
+              "name": "Schism",
+              "nameRu": "Schism",
+              "simcAction": "schism",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 0.3,
+          "offenseTank": false
+        },
+        {
+          "id": 257,
+          "key": "priest_holy",
+          "name": "Holy",
+          "nameRu": "Свет",
+          "role": "HEALER",
+          "attackType": "ranged",
+          "primaryStat": "intellect",
+          "resourceType": "Mana",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": null,
+          "notes": "Healer DPS requires damageActivityShare; damage-only results are labeled explicitly.",
+          "heroTalentTrees": [],
+          "abilities": [
+            {
+              "id": "smite",
+              "name": "Smite",
+              "nameRu": "Smite",
+              "simcAction": "smite",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "holy_fire",
+              "name": "Holy Fire",
+              "nameRu": "Holy Fire",
+              "simcAction": "holy_fire",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "holy_nova",
+              "name": "Holy Nova",
+              "nameRu": "Holy Nova",
+              "simcAction": "holy_nova",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "holy_word_chastise",
+              "name": "Holy Word: Chastise",
+              "nameRu": "Holy Word: Chastise",
+              "simcAction": "holy_word_chastise",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 0.3,
+          "offenseTank": false
+        },
+        {
           "id": 258,
+          "key": "priest_shadow",
           "name": "Shadow",
+          "nameRu": "Тьма",
           "role": "DPS",
+          "attackType": "ranged",
+          "primaryStat": "intellect",
           "resourceType": "Insanity",
-          "simulationSupport": "supported",
+          "readiness": "verified",
+          "simulationSupport": "verified",
+          "canAccurate": true,
+          "canFastEstimate": true,
           "presetProfile": "MID1_Priest_Shadow.simc",
           "defaultHeroTalent": "archon",
+          "notes": null,
           "heroTalentTrees": [
             {
               "id": "archon",
@@ -266,211 +2853,122 @@
             {
               "id": "mind_blast",
               "name": "Mind Blast",
+              "nameRu": "Mind Blast",
               "simcAction": "mind_blast",
               "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "mind_flay",
+              "name": "Mind Flay",
+              "nameRu": "Mind Flay",
+              "simcAction": "mind_flay",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             },
             {
               "id": "shadow_word_pain",
               "name": "Shadow Word: Pain",
+              "nameRu": "Shadow Word: Pain",
               "simcAction": "shadow_word_pain",
               "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             },
             {
               "id": "vampiric_touch",
               "name": "Vampiric Touch",
+              "nameRu": "Vampiric Touch",
               "simcAction": "vampiric_touch",
               "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             },
             {
               "id": "devouring_plague",
               "name": "Devouring Plague",
+              "nameRu": "Devouring Plague",
               "simcAction": "devouring_plague",
               "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "void_bolt",
+              "name": "Void Bolt",
+              "nameRu": "Void Bolt",
+              "simcAction": "void_bolt",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             },
             {
               "id": "void_eruption",
               "name": "Void Eruption",
+              "nameRu": "Void Eruption",
               "simcAction": "void_eruption",
               "category": "active",
               "optional": true,
-              "aoeClass": "aoe"
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
             },
             {
-              "id": "void_torrent",
-              "name": "Void Torrent",
-              "simcAction": "void_torrent",
+              "id": "shadow_crash",
+              "name": "Shadow Crash",
+              "nameRu": "Shadow Crash",
+              "simcAction": "shadow_crash",
               "category": "active",
               "optional": true,
-              "aoeClass": "single_target"
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
             },
             {
-              "id": "shadowfiend",
-              "name": "Shadowfiend",
-              "simcAction": "shadowfiend",
+              "id": "halo",
+              "name": "Halo",
+              "nameRu": "Halo",
+              "simcAction": "halo",
               "category": "active",
               "optional": true,
-              "aoeClass": "single_target"
-            },
-            {
-              "id": "power_infusion",
-              "name": "Power Infusion",
-              "simcAction": "power_infusion",
-              "category": "active",
-              "optional": true,
-              "aoeClass": "single_target"
-            }
-          ]
-        },
-        {
-          "id": 256,
-          "name": "Discipline",
-          "role": "HEALER",
-          "resourceType": "Mana",
-          "simulationSupport": "unsupported",
-          "presetProfile": null,
-          "notes": "No validated DPS model exposed for healers in MVP.",
-          "heroTalentTrees": [],
-          "abilities": []
-        },
-        {
-          "id": 257,
-          "name": "Holy",
-          "role": "HEALER",
-          "resourceType": "Mana",
-          "simulationSupport": "unsupported",
-          "presetProfile": null,
-          "heroTalentTrees": [],
-          "abilities": []
-        }
-      ]
-    },
-    {
-      "id": 9,
-      "name": "Warlock",
-      "color": "#8788EE",
-      "specs": [
-        {
-          "id": 265,
-          "name": "Affliction",
-          "role": "DPS",
-          "resourceType": "Soul Shards",
-          "simulationSupport": "supported",
-          "presetProfile": "MID1_Warlock_Affliction.simc",
-          "defaultHeroTalent": "hellcaller",
-          "heroTalentTrees": [
-            {
-              "id": "hellcaller",
-              "name": "Hellcaller",
-              "simcToken": "hellcaller"
-            },
-            {
-              "id": "soul_harvester",
-              "name": "Soul Harvester",
-              "simcToken": "soul_harvester"
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
             }
           ],
-          "abilities": [
-            {
-              "id": "agony",
-              "name": "Agony",
-              "simcAction": "agony",
-              "category": "active",
-              "optional": false,
-              "aoeClass": "single_target"
-            },
-            {
-              "id": "corruption",
-              "name": "Corruption",
-              "simcAction": "corruption",
-              "category": "active",
-              "optional": false,
-              "aoeClass": "single_target"
-            },
-            {
-              "id": "unstable_affliction",
-              "name": "Unstable Affliction",
-              "simcAction": "unstable_affliction",
-              "category": "active",
-              "optional": false,
-              "aoeClass": "single_target"
-            },
-            {
-              "id": "malefic_rapture",
-              "name": "Malefic Rapture",
-              "simcAction": "malefic_rapture",
-              "category": "active",
-              "optional": false,
-              "aoeClass": "cleave"
-            },
-            {
-              "id": "summon_darkglare",
-              "name": "Summon Darkglare",
-              "simcAction": "summon_darkglare",
-              "category": "active",
-              "optional": true,
-              "aoeClass": "single_target"
-            },
-            {
-              "id": "phantom_singularity",
-              "name": "Phantom Singularity",
-              "simcAction": "phantom_singularity",
-              "category": "active",
-              "optional": true,
-              "aoeClass": "aoe"
-            },
-            {
-              "id": "vile_taint",
-              "name": "Vile Taint",
-              "simcAction": "vile_taint",
-              "category": "active",
-              "optional": true,
-              "aoeClass": "aoe"
-            }
-          ]
-        },
-        {
-          "id": 266,
-          "name": "Demonology",
-          "role": "DPS",
-          "resourceType": "Soul Shards",
-          "simulationSupport": "experimental",
-          "presetProfile": "MID1_Warlock_Demonology.simc",
-          "heroTalentTrees": [],
-          "abilities": []
-        },
-        {
-          "id": 267,
-          "name": "Destruction",
-          "role": "DPS",
-          "resourceType": "Soul Shards",
-          "simulationSupport": "experimental",
-          "presetProfile": "MID1_Warlock_Destruction.simc",
-          "heroTalentTrees": [],
-          "abilities": []
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
         }
       ]
     },
     {
       "id": 4,
       "name": "Rogue",
+      "nameRu": "Разбойник",
       "color": "#FFF569",
       "specs": [
         {
           "id": 259,
+          "key": "rogue_assassination",
           "name": "Assassination",
+          "nameRu": "Ликвидация",
           "role": "DPS",
-          "resourceType": "Energy / Combo Points",
-          "simulationSupport": "supported",
+          "attackType": "melee",
+          "primaryStat": "agility",
+          "resourceType": "Energy/Combo Points",
+          "readiness": "verified",
+          "simulationSupport": "verified",
+          "canAccurate": true,
+          "canFastEstimate": true,
           "presetProfile": "MID1_Rogue_Assassination.simc",
           "defaultHeroTalent": "deathstalker",
+          "notes": null,
           "heroTalentTrees": [
             {
               "id": "deathstalker",
@@ -487,96 +2985,494 @@
             {
               "id": "mutilate",
               "name": "Mutilate",
+              "nameRu": "Mutilate",
               "simcAction": "mutilate",
               "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
-            },
-            {
-              "id": "envenom",
-              "name": "Envenom",
-              "simcAction": "envenom",
-              "category": "active",
-              "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             },
             {
               "id": "garrote",
               "name": "Garrote",
+              "nameRu": "Garrote",
               "simcAction": "garrote",
               "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             },
             {
               "id": "rupture",
               "name": "Rupture",
+              "nameRu": "Rupture",
               "simcAction": "rupture",
               "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             },
             {
-              "id": "kingsbane",
-              "name": "Kingsbane",
-              "simcAction": "kingsbane",
+              "id": "envenom",
+              "name": "Envenom",
+              "nameRu": "Envenom",
+              "simcAction": "envenom",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "crimson_tempest",
+              "name": "Crimson Tempest",
+              "nameRu": "Crimson Tempest",
+              "simcAction": "crimson_tempest",
               "category": "active",
               "optional": true,
-              "aoeClass": "single_target"
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
             },
             {
               "id": "deathmark",
               "name": "Deathmark",
+              "nameRu": "Deathmark",
               "simcAction": "deathmark",
               "category": "active",
               "optional": true,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             },
             {
-              "id": "shiv",
-              "name": "Shiv",
-              "simcAction": "shiv",
+              "id": "kingsbane",
+              "name": "Kingsbane",
+              "nameRu": "Kingsbane",
+              "simcAction": "kingsbane",
               "category": "active",
               "optional": true,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "vanish",
+              "name": "Vanish",
+              "nameRu": "Vanish",
+              "simcAction": "vanish",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "auto_attack",
+              "name": "Auto Attack",
+              "nameRu": "Auto Attack",
+              "simcAction": "auto_attack",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             }
-          ]
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
         },
         {
           "id": 260,
+          "key": "rogue_outlaw",
           "name": "Outlaw",
+          "nameRu": "Головорез",
           "role": "DPS",
-          "resourceType": "Energy / Combo Points",
-          "simulationSupport": "experimental",
+          "attackType": "melee",
+          "primaryStat": "agility",
+          "resourceType": "Energy/Combo Points",
+          "readiness": "implemented",
+          "simulationSupport": "implemented",
+          "canAccurate": true,
+          "canFastEstimate": true,
           "presetProfile": "MID1_Rogue_Outlaw.simc",
-          "heroTalentTrees": [],
-          "abilities": []
+          "defaultHeroTalent": "fatebound",
+          "notes": null,
+          "heroTalentTrees": [
+            {
+              "id": "fatebound",
+              "name": "Fatebound",
+              "simcToken": "fatebound"
+            },
+            {
+              "id": "trickster",
+              "name": "Trickster",
+              "simcToken": "trickster"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "sinister_strike",
+              "name": "Sinister Strike",
+              "nameRu": "Sinister Strike",
+              "simcAction": "sinister_strike",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "pistol_shot",
+              "name": "Pistol Shot",
+              "nameRu": "Pistol Shot",
+              "simcAction": "pistol_shot",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "dispatch",
+              "name": "Dispatch",
+              "nameRu": "Dispatch",
+              "simcAction": "dispatch",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "between_the_eyes",
+              "name": "Between the Eyes",
+              "nameRu": "Between the Eyes",
+              "simcAction": "between_the_eyes",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "blade_flurry",
+              "name": "Blade Flurry",
+              "nameRu": "Blade Flurry",
+              "simcAction": "blade_flurry",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "adrenaline_rush",
+              "name": "Adrenaline Rush",
+              "nameRu": "Adrenaline Rush",
+              "simcAction": "adrenaline_rush",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "roll_the_bones",
+              "name": "Roll the Bones",
+              "nameRu": "Roll the Bones",
+              "simcAction": "roll_the_bones",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "coup_de_grace",
+              "name": "Coup de Grace",
+              "nameRu": "Coup de Grace",
+              "simcAction": "coup_de_grace",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "ambush",
+              "name": "Ambush",
+              "nameRu": "Ambush",
+              "simcAction": "ambush",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "auto_attack",
+              "name": "Auto Attack",
+              "nameRu": "Auto Attack",
+              "simcAction": "auto_attack",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
         },
         {
           "id": 261,
+          "key": "rogue_subtlety",
           "name": "Subtlety",
+          "nameRu": "Скрытность",
           "role": "DPS",
-          "resourceType": "Energy / Combo Points",
-          "simulationSupport": "experimental",
+          "attackType": "melee",
+          "primaryStat": "agility",
+          "resourceType": "Energy/Combo Points",
+          "readiness": "implemented",
+          "simulationSupport": "implemented",
+          "canAccurate": true,
+          "canFastEstimate": true,
           "presetProfile": "MID1_Rogue_Subtlety.simc",
-          "heroTalentTrees": [],
-          "abilities": []
+          "defaultHeroTalent": "trickster",
+          "notes": null,
+          "heroTalentTrees": [
+            {
+              "id": "trickster",
+              "name": "Trickster",
+              "simcToken": "trickster"
+            },
+            {
+              "id": "deathstalker",
+              "name": "Deathstalker",
+              "simcToken": "deathstalker"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "backstab",
+              "name": "Backstab",
+              "nameRu": "Backstab",
+              "simcAction": "backstab",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "shadowstrike",
+              "name": "Shadowstrike",
+              "nameRu": "Shadowstrike",
+              "simcAction": "shadowstrike",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "eviscerate",
+              "name": "Eviscerate",
+              "nameRu": "Eviscerate",
+              "simcAction": "eviscerate",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "shuriken_storm",
+              "name": "Shuriken Storm",
+              "nameRu": "Shuriken Storm",
+              "simcAction": "shuriken_storm",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "shadow_dance",
+              "name": "Shadow Dance",
+              "nameRu": "Shadow Dance",
+              "simcAction": "shadow_dance",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "symbols_of_death",
+              "name": "Symbols of Death",
+              "nameRu": "Symbols of Death",
+              "simcAction": "symbols_of_death",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "goremaws_bite",
+              "name": "Goremaw's Bite",
+              "nameRu": "Goremaw's Bite",
+              "simcAction": "goremaws_bite",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "secret_technique",
+              "name": "Secret Technique",
+              "nameRu": "Secret Technique",
+              "simcAction": "secret_technique",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "auto_attack",
+              "name": "Auto Attack",
+              "nameRu": "Auto Attack",
+              "simcAction": "auto_attack",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
         }
       ]
     },
     {
       "id": 7,
       "name": "Shaman",
+      "nameRu": "Шаман",
       "color": "#0070DE",
       "specs": [
         {
-          "id": 263,
-          "name": "Enhancement",
+          "id": 262,
+          "key": "shaman_elemental",
+          "name": "Elemental",
+          "nameRu": "Стихии",
           "role": "DPS",
+          "attackType": "ranged",
+          "primaryStat": "intellect",
           "resourceType": "Maelstrom",
-          "simulationSupport": "supported",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": "farseer",
+          "notes": null,
+          "heroTalentTrees": [
+            {
+              "id": "farseer",
+              "name": "Farseer",
+              "simcToken": "farseer"
+            },
+            {
+              "id": "stormbringer",
+              "name": "Stormbringer",
+              "simcToken": "stormbringer"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "lightning_bolt",
+              "name": "Lightning Bolt",
+              "nameRu": "Lightning Bolt",
+              "simcAction": "lightning_bolt",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "lava_burst",
+              "name": "Lava Burst",
+              "nameRu": "Lava Burst",
+              "simcAction": "lava_burst",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "flame_shock",
+              "name": "Flame Shock",
+              "nameRu": "Flame Shock",
+              "simcAction": "flame_shock",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "earth_shock",
+              "name": "Earth Shock",
+              "nameRu": "Earth Shock",
+              "simcAction": "earth_shock",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "earthquake",
+              "name": "Earthquake",
+              "nameRu": "Earthquake",
+              "simcAction": "earthquake",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "chain_lightning",
+              "name": "Chain Lightning",
+              "nameRu": "Chain Lightning",
+              "simcAction": "chain_lightning",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "stormkeeper",
+              "name": "Stormkeeper",
+              "nameRu": "Stormkeeper",
+              "simcAction": "stormkeeper",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "ascendance",
+              "name": "Ascendance",
+              "nameRu": "Ascendance",
+              "simcAction": "ascendance",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
+        },
+        {
+          "id": 263,
+          "key": "shaman_enhancement",
+          "name": "Enhancement",
+          "nameRu": "Совершенствование",
+          "role": "DPS",
+          "attackType": "melee",
+          "primaryStat": "agility",
+          "resourceType": "Maelstrom",
+          "readiness": "verified",
+          "simulationSupport": "verified",
+          "canAccurate": true,
+          "canFastEstimate": true,
           "presetProfile": "MID1_Shaman_Enhancement.simc",
           "defaultHeroTalent": "stormbringer",
+          "notes": null,
           "heroTalentTrees": [
             {
               "id": "stormbringer",
@@ -593,311 +3489,839 @@
             {
               "id": "stormstrike",
               "name": "Stormstrike",
+              "nameRu": "Stormstrike",
               "simcAction": "stormstrike",
               "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             },
             {
               "id": "lava_lash",
               "name": "Lava Lash",
+              "nameRu": "Lava Lash",
               "simcAction": "lava_lash",
               "category": "active",
               "optional": false,
-              "aoeClass": "cleave"
+              "aoeClass": "cleave",
+              "dataStatus": "implemented"
             },
             {
               "id": "crash_lightning",
               "name": "Crash Lightning",
+              "nameRu": "Crash Lightning",
               "simcAction": "crash_lightning",
               "category": "active",
               "optional": true,
-              "aoeClass": "aoe"
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
             },
             {
-              "id": "feral_spirit",
-              "name": "Feral Spirit",
-              "simcAction": "feral_spirit",
+              "id": "sundering",
+              "name": "Sundering",
+              "nameRu": "Sundering",
+              "simcAction": "sundering",
               "category": "active",
               "optional": true,
-              "aoeClass": "single_target"
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
             },
             {
               "id": "doom_winds",
               "name": "Doom Winds",
+              "nameRu": "Doom Winds",
               "simcAction": "doom_winds",
               "category": "active",
               "optional": true,
-              "aoeClass": "single_target"
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
             },
             {
-              "id": "ascendance",
-              "name": "Ascendance",
-              "simcAction": "ascendance",
+              "id": "primordial_storm",
+              "name": "Primordial Storm",
+              "nameRu": "Primordial Storm",
+              "simcAction": "primordial_storm",
               "category": "active",
               "optional": true,
-              "aoeClass": "single_target"
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "voltaic_blaze",
+              "name": "Voltaic Blaze",
+              "nameRu": "Voltaic Blaze",
+              "simcAction": "voltaic_blaze",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "flame_shock",
+              "name": "Flame Shock",
+              "nameRu": "Flame Shock",
+              "simcAction": "flame_shock",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "auto_attack",
+              "name": "Auto Attack",
+              "nameRu": "Auto Attack",
+              "simcAction": "auto_attack",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             }
-          ]
-        },
-        {
-          "id": 262,
-          "name": "Elemental",
-          "role": "DPS",
-          "resourceType": "Maelstrom",
-          "simulationSupport": "unsupported",
-          "presetProfile": "MID1_Shaman_Elemental.simc",
-          "notes": "Talent hash fails on pinned SimC.",
-          "heroTalentTrees": [],
-          "abilities": []
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
         },
         {
           "id": 264,
+          "key": "shaman_restoration",
           "name": "Restoration",
+          "nameRu": "Исцеление",
           "role": "HEALER",
+          "attackType": "melee",
+          "primaryStat": "intellect",
           "resourceType": "Mana",
-          "simulationSupport": "unsupported",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
           "presetProfile": null,
+          "defaultHeroTalent": null,
+          "notes": "Healer DPS requires damageActivityShare; damage-only results are labeled explicitly.",
           "heroTalentTrees": [],
-          "abilities": []
+          "abilities": [
+            {
+              "id": "lightning_bolt",
+              "name": "Lightning Bolt",
+              "nameRu": "Lightning Bolt",
+              "simcAction": "lightning_bolt",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "lava_burst",
+              "name": "Lava Burst",
+              "nameRu": "Lava Burst",
+              "simcAction": "lava_burst",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "flame_shock",
+              "name": "Flame Shock",
+              "nameRu": "Flame Shock",
+              "simcAction": "flame_shock",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "chain_lightning",
+              "name": "Chain Lightning",
+              "nameRu": "Chain Lightning",
+              "simcAction": "chain_lightning",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 0.3,
+          "offenseTank": false
         }
       ]
     },
     {
-      "id": 6,
-      "name": "Death Knight",
-      "color": "#C41F3B",
+      "id": 9,
+      "name": "Warlock",
+      "nameRu": "Чернокнижник",
+      "color": "#9482C9",
       "specs": [
         {
-          "id": 251,
-          "name": "Frost",
+          "id": 265,
+          "key": "warlock_affliction",
+          "name": "Affliction",
+          "nameRu": "Колдовство",
           "role": "DPS",
-          "resourceType": "Runic Power",
-          "simulationSupport": "experimental",
-          "presetProfile": "MID1_Death_Knight_Frost.simc",
-          "heroTalentTrees": [],
+          "attackType": "ranged",
+          "primaryStat": "intellect",
+          "resourceType": "Soul Shards",
+          "readiness": "verified",
+          "simulationSupport": "verified",
+          "canAccurate": true,
+          "canFastEstimate": true,
+          "presetProfile": "MID1_Warlock_Affliction.simc",
+          "defaultHeroTalent": "hellcaller",
+          "notes": null,
+          "heroTalentTrees": [
+            {
+              "id": "hellcaller",
+              "name": "Hellcaller",
+              "simcToken": "hellcaller"
+            },
+            {
+              "id": "soul_harvester",
+              "name": "Soul Harvester",
+              "simcToken": "soul_harvester"
+            }
+          ],
           "abilities": [
             {
-              "id": "frost_strike",
-              "name": "Frost Strike",
-              "simcAction": "frost_strike",
+              "id": "agony",
+              "name": "Agony",
+              "nameRu": "Agony",
+              "simcAction": "agony",
               "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             },
             {
-              "id": "obliterate",
-              "name": "Obliterate",
-              "simcAction": "obliterate",
+              "id": "corruption",
+              "name": "Corruption",
+              "nameRu": "Corruption",
+              "simcAction": "corruption",
               "category": "active",
               "optional": false,
-              "aoeClass": "cleave"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             },
             {
-              "id": "pillar_of_frost",
-              "name": "Pillar of Frost",
-              "simcAction": "pillar_of_frost",
+              "id": "unstable_affliction",
+              "name": "Unstable Affliction",
+              "nameRu": "Unstable Affliction",
+              "simcAction": "unstable_affliction",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "malefic_rapture",
+              "name": "Malefic Rapture",
+              "nameRu": "Malefic Rapture",
+              "simcAction": "malefic_rapture",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "shadow_bolt",
+              "name": "Shadow Bolt",
+              "nameRu": "Shadow Bolt",
+              "simcAction": "shadow_bolt",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "summon_darkglare",
+              "name": "Summon Darkglare",
+              "nameRu": "Summon Darkglare",
+              "simcAction": "summon_darkglare",
               "category": "active",
               "optional": true,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "malevolence",
+              "name": "Malevolence",
+              "nameRu": "Malevolence",
+              "simcAction": "malevolence",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "haunt",
+              "name": "Haunt",
+              "nameRu": "Haunt",
+              "simcAction": "haunt",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             }
-          ]
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
         },
         {
-          "id": 252,
-          "name": "Unholy",
+          "id": 266,
+          "key": "warlock_demonology",
+          "name": "Demonology",
+          "nameRu": "Демонология",
           "role": "DPS",
-          "resourceType": "Runic Power",
-          "simulationSupport": "experimental",
-          "presetProfile": "MID1_Death_Knight_Unholy.simc",
-          "heroTalentTrees": [],
+          "attackType": "ranged",
+          "primaryStat": "intellect",
+          "resourceType": "Soul Shards",
+          "readiness": "implemented",
+          "simulationSupport": "implemented",
+          "canAccurate": true,
+          "canFastEstimate": true,
+          "presetProfile": "MID1_Warlock_Demonology.simc",
+          "defaultHeroTalent": "diabolist",
+          "notes": null,
+          "heroTalentTrees": [
+            {
+              "id": "diabolist",
+              "name": "Diabolist",
+              "simcToken": "diabolist"
+            },
+            {
+              "id": "soul_harvester",
+              "name": "Soul Harvester",
+              "simcToken": "soul_harvester"
+            }
+          ],
           "abilities": [
             {
-              "id": "death_coil",
-              "name": "Death Coil",
-              "simcAction": "death_coil",
+              "id": "shadow_bolt",
+              "name": "Shadow Bolt",
+              "nameRu": "Shadow Bolt",
+              "simcAction": "shadow_bolt",
               "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             },
             {
-              "id": "festering_strike",
-              "name": "Festering Strike",
-              "simcAction": "festering_strike",
+              "id": "hand_of_guldan",
+              "name": "Hand of Gul'dan",
+              "nameRu": "Hand of Gul'dan",
+              "simcAction": "hand_of_guldan",
               "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
             },
             {
-              "id": "army_of_the_dead",
-              "name": "Army of the Dead",
-              "simcAction": "army_of_the_dead",
+              "id": "call_dreadstalkers",
+              "name": "Call Dreadstalkers",
+              "nameRu": "Call Dreadstalkers",
+              "simcAction": "call_dreadstalkers",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "summon_demonic_tyrant",
+              "name": "Summon Demonic Tyrant",
+              "nameRu": "Summon Demonic Tyrant",
+              "simcAction": "summon_demonic_tyrant",
               "category": "active",
               "optional": true,
-              "aoeClass": "aoe"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": 11,
-      "name": "Druid",
-      "color": "#FF7D0A",
-      "specs": [
-        {
-          "id": 102,
-          "name": "Balance",
-          "role": "DPS",
-          "resourceType": "Astral Power",
-          "simulationSupport": "experimental",
-          "presetProfile": "MID1_Druid_Balance.simc",
-          "heroTalentTrees": [],
-          "abilities": [
-            {
-              "id": "starsurge",
-              "name": "Starsurge",
-              "simcAction": "starsurge",
-              "category": "active",
-              "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             },
             {
-              "id": "starfire",
-              "name": "Starfire",
-              "simcAction": "starfire",
-              "category": "active",
-              "optional": false,
-              "aoeClass": "aoe"
-            },
-            {
-              "id": "celestial_alignment",
-              "name": "Celestial Alignment",
-              "simcAction": "celestial_alignment",
+              "id": "grimoire_felguard",
+              "name": "Grimoire: Felguard",
+              "nameRu": "Grimoire: Felguard",
+              "simcAction": "grimoire_felguard",
               "category": "active",
               "optional": true,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "implosion",
+              "name": "Implosion",
+              "nameRu": "Implosion",
+              "simcAction": "implosion",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "power_siphon",
+              "name": "Power Siphon",
+              "nameRu": "Power Siphon",
+              "simcAction": "power_siphon",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "demonbolt",
+              "name": "Demonbolt",
+              "nameRu": "Demonbolt",
+              "simcAction": "demonbolt",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             }
-          ]
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
         },
         {
-          "id": 103,
-          "name": "Feral",
+          "id": 267,
+          "key": "warlock_destruction",
+          "name": "Destruction",
+          "nameRu": "Разрушение",
           "role": "DPS",
-          "resourceType": "Energy / Combo Points",
-          "simulationSupport": "experimental",
-          "presetProfile": "MID1_Druid_Feral.simc",
-          "heroTalentTrees": [],
+          "attackType": "ranged",
+          "primaryStat": "intellect",
+          "resourceType": "Soul Shards",
+          "readiness": "implemented",
+          "simulationSupport": "implemented",
+          "canAccurate": true,
+          "canFastEstimate": true,
+          "presetProfile": "MID1_Warlock_Destruction.simc",
+          "defaultHeroTalent": "diabolist",
+          "notes": null,
+          "heroTalentTrees": [
+            {
+              "id": "diabolist",
+              "name": "Diabolist",
+              "simcToken": "diabolist"
+            },
+            {
+              "id": "hellcaller",
+              "name": "Hellcaller",
+              "simcToken": "hellcaller"
+            }
+          ],
           "abilities": [
             {
-              "id": "shred",
-              "name": "Shred",
-              "simcAction": "shred",
+              "id": "incinerate",
+              "name": "Incinerate",
+              "nameRu": "Incinerate",
+              "simcAction": "incinerate",
               "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             },
             {
-              "id": "rip",
-              "name": "Rip",
-              "simcAction": "rip",
+              "id": "immolate",
+              "name": "Immolate",
+              "nameRu": "Immolate",
+              "simcAction": "immolate",
               "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             },
             {
-              "id": "tigers_fury",
-              "name": "Tiger's Fury",
-              "simcAction": "tigers_fury",
+              "id": "chaos_bolt",
+              "name": "Chaos Bolt",
+              "nameRu": "Chaos Bolt",
+              "simcAction": "chaos_bolt",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "conflagrate",
+              "name": "Conflagrate",
+              "nameRu": "Conflagrate",
+              "simcAction": "conflagrate",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "rain_of_fire",
+              "name": "Rain of Fire",
+              "nameRu": "Rain of Fire",
+              "simcAction": "rain_of_fire",
               "category": "active",
               "optional": true,
-              "aoeClass": "single_target"
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "cataclysm",
+              "name": "Cataclysm",
+              "nameRu": "Cataclysm",
+              "simcAction": "cataclysm",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "summon_infernal",
+              "name": "Summon Infernal",
+              "nameRu": "Summon Infernal",
+              "simcAction": "summon_infernal",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "soul_fire",
+              "name": "Soul Fire",
+              "nameRu": "Soul Fire",
+              "simcAction": "soul_fire",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             }
-          ]
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
         }
       ]
     },
     {
-      "id": 10,
-      "name": "Monk",
-      "color": "#00FF96",
+      "id": 1,
+      "name": "Warrior",
+      "nameRu": "Воин",
+      "color": "#C79C6E",
       "specs": [
         {
-          "id": 269,
-          "name": "Windwalker",
+          "id": 71,
+          "key": "warrior_arms",
+          "name": "Arms",
+          "nameRu": "Оружие",
           "role": "DPS",
-          "resourceType": "Energy / Chi",
-          "simulationSupport": "experimental",
-          "presetProfile": "MID1_Monk_Windwalker.simc",
+          "attackType": "melee",
+          "primaryStat": "strength",
+          "resourceType": "Rage",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": "slayer",
+          "notes": null,
+          "heroTalentTrees": [
+            {
+              "id": "slayer",
+              "name": "Slayer",
+              "simcToken": "slayer"
+            },
+            {
+              "id": "colossus",
+              "name": "Colossus",
+              "simcToken": "colossus"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "mortal_strike",
+              "name": "Mortal Strike",
+              "nameRu": "Mortal Strike",
+              "simcAction": "mortal_strike",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "overpower",
+              "name": "Overpower",
+              "nameRu": "Overpower",
+              "simcAction": "overpower",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "slam",
+              "name": "Slam",
+              "nameRu": "Slam",
+              "simcAction": "slam",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "execute",
+              "name": "Execute",
+              "nameRu": "Execute",
+              "simcAction": "execute",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "bladestorm",
+              "name": "Bladestorm",
+              "nameRu": "Bladestorm",
+              "simcAction": "bladestorm",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "colossus_smash",
+              "name": "Colossus Smash",
+              "nameRu": "Colossus Smash",
+              "simcAction": "colossus_smash",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "ravager",
+              "name": "Ravager",
+              "nameRu": "Ravager",
+              "simcAction": "ravager",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "auto_attack",
+              "name": "Auto Attack",
+              "nameRu": "Auto Attack",
+              "simcAction": "auto_attack",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
+        },
+        {
+          "id": 72,
+          "key": "warrior_fury",
+          "name": "Fury",
+          "nameRu": "Неистовство",
+          "role": "DPS",
+          "attackType": "melee",
+          "primaryStat": "strength",
+          "resourceType": "Rage",
+          "readiness": "implemented",
+          "simulationSupport": "implemented",
+          "canAccurate": true,
+          "canFastEstimate": true,
+          "presetProfile": "MID1_Warrior_Fury.simc",
+          "defaultHeroTalent": "slayer",
+          "notes": "MID1 talents= hash may fail init on pin; engine retries with hero_talents=.",
+          "heroTalentTrees": [
+            {
+              "id": "slayer",
+              "name": "Slayer",
+              "simcToken": "slayer"
+            },
+            {
+              "id": "mountain_thane",
+              "name": "Mountain Thane",
+              "simcToken": "mountain_thane"
+            }
+          ],
+          "abilities": [
+            {
+              "id": "rampage",
+              "name": "Rampage",
+              "nameRu": "Rampage",
+              "simcAction": "rampage",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "cleave",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "bloodthirst",
+              "name": "Bloodthirst",
+              "nameRu": "Bloodthirst",
+              "simcAction": "bloodthirst",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "raging_blow",
+              "name": "Raging Blow",
+              "nameRu": "Raging Blow",
+              "simcAction": "raging_blow",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "execute",
+              "name": "Execute",
+              "nameRu": "Execute",
+              "simcAction": "execute",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "recklessness",
+              "name": "Recklessness",
+              "nameRu": "Recklessness",
+              "simcAction": "recklessness",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "avatar",
+              "name": "Avatar",
+              "nameRu": "Avatar",
+              "simcAction": "avatar",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "odyns_fury",
+              "name": "Odyn's Fury",
+              "nameRu": "Odyn's Fury",
+              "simcAction": "odyns_fury",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "thunderous_roar",
+              "name": "Thunderous Roar",
+              "nameRu": "Thunderous Roar",
+              "simcAction": "thunderous_roar",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "auto_attack",
+              "name": "Auto Attack",
+              "nameRu": "Auto Attack",
+              "simcAction": "auto_attack",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            }
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": false
+        },
+        {
+          "id": 73,
+          "key": "warrior_protection",
+          "name": "Protection",
+          "nameRu": "Защита",
+          "role": "TANK",
+          "attackType": "melee",
+          "primaryStat": "strength",
+          "resourceType": "Rage",
+          "readiness": "partial",
+          "simulationSupport": "partial",
+          "canAccurate": false,
+          "canFastEstimate": true,
+          "presetProfile": null,
+          "defaultHeroTalent": null,
+          "notes": "Offensive tank simulation; incoming-damage procs depend on encounter settings.",
           "heroTalentTrees": [],
           "abilities": [
             {
-              "id": "fists_of_fury",
-              "name": "Fists of Fury",
-              "simcAction": "fists_of_fury",
-              "category": "active",
-              "optional": true,
-              "aoeClass": "aoe"
-            },
-            {
-              "id": "rising_sun_kick",
-              "name": "Rising Sun Kick",
-              "simcAction": "rising_sun_kick",
+              "id": "shield_slam",
+              "name": "Shield Slam",
+              "nameRu": "Shield Slam",
+              "simcAction": "shield_slam",
               "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             },
             {
-              "id": "strike_of_the_windlord",
-              "name": "Strike of the Windlord",
-              "simcAction": "strike_of_the_windlord",
-              "category": "active",
-              "optional": true,
-              "aoeClass": "cleave"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": 13,
-      "name": "Evoker",
-      "color": "#33937F",
-      "specs": [
-        {
-          "id": 1467,
-          "name": "Devastation",
-          "role": "DPS",
-          "resourceType": "Essence",
-          "simulationSupport": "experimental",
-          "presetProfile": "MID1_Evoker_Devastation.simc",
-          "heroTalentTrees": [],
-          "abilities": [
-            {
-              "id": "pyre",
-              "name": "Pyre",
-              "simcAction": "pyre",
-              "category": "active",
-              "optional": true,
-              "aoeClass": "aoe"
-            },
-            {
-              "id": "disintegrate",
-              "name": "Disintegrate",
-              "simcAction": "disintegrate",
+              "id": "thunder_clap",
+              "name": "Thunder Clap",
+              "nameRu": "Thunder Clap",
+              "simcAction": "thunder_clap",
               "category": "active",
               "optional": false,
-              "aoeClass": "single_target"
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
             },
             {
-              "id": "dragonrage",
-              "name": "Dragonrage",
-              "simcAction": "dragonrage",
+              "id": "revenge",
+              "name": "Revenge",
+              "nameRu": "Revenge",
+              "simcAction": "revenge",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "aoe",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "execute",
+              "name": "Execute",
+              "nameRu": "Execute",
+              "simcAction": "execute",
               "category": "active",
               "optional": true,
-              "aoeClass": "single_target"
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "avatar",
+              "name": "Avatar",
+              "nameRu": "Avatar",
+              "simcAction": "avatar",
+              "category": "active",
+              "optional": true,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
+            },
+            {
+              "id": "auto_attack",
+              "name": "Auto Attack",
+              "nameRu": "Auto Attack",
+              "simcAction": "auto_attack",
+              "category": "active",
+              "optional": false,
+              "aoeClass": "single_target",
+              "dataStatus": "implemented"
             }
-          ]
+          ],
+          "allyModelRequired": false,
+          "damageActivityShareDefault": 1.0,
+          "offenseTank": true
         }
       ]
     }

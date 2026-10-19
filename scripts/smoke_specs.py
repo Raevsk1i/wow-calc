@@ -24,8 +24,8 @@ def main() -> int:
     failures: list[str] = []
     for wow_class in catalog["classes"]:
         for spec in wow_class["specs"]:
-            support = spec["simulationSupport"]
-            if support == "unsupported":
+            support = spec.get("readiness") or spec["simulationSupport"]
+            if support == "unsupported" or not spec.get("canAccurate", support != "unsupported"):
                 continue
             profile = spec.get("presetProfile")
             if not profile:
@@ -39,7 +39,7 @@ def main() -> int:
                 out = Path(tmp) / "report.json"
                 text = path.read_text(encoding="utf-8")
                 # Mirror composer fallback for known broken hashes
-                if support == "experimental" and "talents=" in text:
+                if support in {"partial", "implemented"} and "talents=" in text:
                     lines = [ln for ln in text.splitlines() if not ln.startswith("talents=")]
                     hero = spec.get("defaultHeroTalent")
                     if hero:

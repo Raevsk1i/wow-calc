@@ -92,13 +92,23 @@ def parse_json2_report(
     if report_targets is None:
         report_targets = options.get("desired_targets")
 
+    std = _mean(dps.get("std_dev")) if isinstance(dps, dict) else None
+    mean_std = _mean(dps.get("mean_std_dev")) if isinstance(dps, dict) else None
+    confidence95 = None
+    if mean_dps is not None and mean_std is not None:
+        confidence95 = [mean_dps - 1.96 * mean_std, mean_dps + 1.96 * mean_std]
+
     return SimulationResult(
         meanDps=mean_dps,
+        personalDps=mean_dps,
         minDps=_mean(dps.get("min")) if isinstance(dps, dict) else None,
         maxDps=_mean(dps.get("max")) if isinstance(dps, dict) else None,
         medianDps=_mean(dps.get("median")) if isinstance(dps, dict) else None,
-        stdDev=_mean(dps.get("std_dev")) if isinstance(dps, dict) else None,
-        meanStdDev=_mean(dps.get("mean_std_dev")) if isinstance(dps, dict) else None,
+        stdDev=std,
+        meanStdDev=mean_std,
+        p05Dps=None,
+        p95Dps=None,
+        confidence95=confidence95,
         totalDamage=total_damage,
         fightLength=fight_length,
         iterations=iterations or options.get("iterations"),
@@ -115,5 +125,6 @@ def parse_json2_report(
         ],
         engine=engine,
         isDemo=is_demo,
+        isApproximation=False,
         warnings=warnings or [],
     )

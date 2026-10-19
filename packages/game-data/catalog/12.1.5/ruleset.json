@@ -1,0 +1,47 @@
+{
+  "game": "wow-retail",
+  "expansion": "midnight",
+  "patch": "12.1.5",
+  "clientBuild": 70448,
+  "hotfixDate": "2026-10-17",
+  "region": "eu",
+  "level": 90,
+  "season": "Midnight Season 2",
+  "dataRevision": "midnight-12.1.5-eu-2026-10-17-d91a570",
+  "aplRevision": "d91a57073f82f023076e6e3737389bb86193a0f9",
+  "simcCommit": "d91a570",
+  "simcBranch": "midnight",
+  "verifiedAt": "2026-10-19T00:00:00Z",
+  "confidence": "pin-verified",
+  "source": [
+    "Blizzard 12.1.5 patch notes / hotfixes",
+    "SimulationCraft midnight d91a570 SpellData + MID1 profiles",
+    "Curated ability catalogs (no invented coefficients)"
+  ],
+  "combatRating": {
+    "level": 90,
+    "critPerPercent": 46,
+    "hastePerPercent": 44,
+    "masteryPerPoint": 46,
+    "versatilityPerPercent": 54,
+    "diminishingReturns": [
+      { "upTo": 0.30, "efficiency": 1.0 },
+      { "upTo": 0.39, "efficiency": 0.9 },
+      { "upTo": 0.47, "efficiency": 0.8 },
+      { "upTo": 0.54, "efficiency": 0.7 },
+      { "upTo": 0.66, "efficiency": 0.6 },
+      { "upTo": 1.26, "efficiency": 0.5 },
+      { "upTo": null, "efficiency": 0.0 }
+    ]
+  },
+  "defaults": {
+    "encounter": "Patchwerk",
+    "duration": 300,
+    "targetPresets": [1, 2, 3, 5, 10],
+    "simulationPreview": "fast_estimate",
+    "simulationFinal": "accurate",
+    "iterationsAccurate": 10000,
+    "positionDps": "back",
+    "positionTank": "front"
+  }
+}

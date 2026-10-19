@@ -1,0 +1,81 @@
+{
+  "buffs": [
+    {
+      "id": "arcane_intellect",
+      "name": "Arcane Intellect",
+      "nameRu": "Чародейский интеллект",
+      "effect": "+3% Intellect",
+      "stat": "intellect",
+      "multiplier": 1.03,
+      "defaultEnabled": true
+    },
+    {
+      "id": "battle_shout",
+      "name": "Battle Shout",
+      "nameRu": "Боевой крик",
+      "effect": "+5% Attack Power",
+      "stat": "attack_power",
+      "multiplier": 1.05,
+      "defaultEnabled": true
+    },
+    {
+      "id": "mark_of_the_wild",
+      "name": "Mark of the Wild",
+      "nameRu": "Знак дикой природы",
+      "effect": "+3% Versatility",
+      "stat": "versatility",
+      "flatPercent": 0.03,
+      "defaultEnabled": true
+    },
+    {
+      "id": "skyfury",
+      "name": "Skyfury",
+      "nameRu": "Небесная ярость",
+      "effect": "+2% Mastery",
+      "stat": "mastery",
+      "flatPercent": 0.02,
+      "defaultEnabled": true
+    },
+    {
+      "id": "bloodlust",
+      "name": "Bloodlust / Heroism",
+      "nameRu": "Кровожадность / Героизм",
+      "effect": "+30% Haste for 40s",
+      "stat": "haste",
+      "multiplier": 1.3,
+      "durationMs": 40000,
+      "defaultEnabled": true,
+      "defaultAtMs": 0
+    },
+    {
+      "id": "power_word_fortitude",
+      "name": "Power Word: Fortitude",
+      "nameRu": "Слово силы: Стойкость",
+      "effect": "+10% Stamina",
+      "stat": "stamina",
+      "multiplier": 1.1,
+      "defaultEnabled": true,
+      "dpsImpact": "indirect"
+    }
+  ],
+  "debuffs": [
+    {
+      "id": "chaos_brand",
+      "name": "Chaos Brand",
+      "nameRu": "Метка хаоса",
+      "effect": "+3% magic damage taken",
+      "school": "magic",
+      "multiplier": 1.03,
+      "defaultEnabled": true
+    },
+    {
+      "id": "mystic_touch",
+      "name": "Mystic Touch",
+      "nameRu": "Мистическое касание",
+      "effect": "+5% physical damage taken",
+      "school": "physical",
+      "multiplier": 1.05,
+      "defaultEnabled": true
+    }
+  ]
+}

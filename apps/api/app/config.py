@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     app_name: str = "WoW DPS Lab"
     api_prefix: str = "/api/v1"
     game_version: str = "12.1.5"
-    data_snapshot_id: str = "12.1.5-mid1-d91a570"
+    data_snapshot_id: str = "midnight-12.1.5-eu-2026-10-17-d91a570"
 
     sim_engine: str = "simc"  # simc | mock
     simc_path: str = str(REPO_ROOT / "engine" / "simc" / "bin" / "simc")
