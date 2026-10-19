@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.coverage
+htmlcov/
+
+# Node
+node_modules/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+
+# SimulationCraft binary artifacts (build via engine/simc/build.sh)
+engine/simc/bin/
+engine/simc/src/
+*.o
+*.d
+
+# Runtime
+/tmp/
+*.log
+.DS_Store
+.idea/
+.vscode/
+
+# Test / local outputs
+apps/api/.data/
+*.sqlite3
+/artifacts/

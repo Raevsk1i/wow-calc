@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "cursor/**"]
+  pull_request:
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install API
+        run: |
+          python -m pip install -U pip
+          python -m pip install -e "apps/api[dev]"
+      - name: Pytest (unit + mock)
+        env:
+          SIM_ENGINE: mock
+        run: |
+          cd apps/api
+          pytest -q --ignore=tests/test_simc_integration.py
+
+  web-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+      - name: Install & test
+        working-directory: apps/web
+        run: |
+          npm ci --legacy-peer-deps
+          npm test
+          npm run lint
+          npm run build

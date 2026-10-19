@@ -1,0 +1,65 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: wowdps
+      POSTGRES_PASSWORD: wowdps
+      POSTGRES_DB: wowdps
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      SIM_ENGINE: simc
+      SIMC_PATH: /usr/local/bin/simc
+      SIMC_PROFILES_DIR: /opt/game-data/presets/12.1.5
+      GAME_DATA_DIR: /opt/game-data
+      REDIS_URL: redis://redis:6379/0
+      DATABASE_URL: postgresql+psycopg://wowdps:wowdps@db:5432/wowdps
+      CORS_ORIGINS: http://localhost:3000,http://127.0.0.1:3000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+      - db
+
+  worker:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    command: ["python", "/app/apps/worker/worker.py"]
+    environment:
+      SIM_ENGINE: simc
+      SIMC_PATH: /usr/local/bin/simc
+      SIMC_PROFILES_DIR: /opt/game-data/presets/12.1.5
+      GAME_DATA_DIR: /opt/game-data
+      REDIS_URL: redis://redis:6379/0
+      DATABASE_URL: postgresql+psycopg://wowdps:wowdps@db:5432/wowdps
+    depends_on:
+      - redis
+      - db
+      - api
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    environment:
+      NEXT_PUBLIC_API_BASE: http://localhost:8000/api/v1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:
