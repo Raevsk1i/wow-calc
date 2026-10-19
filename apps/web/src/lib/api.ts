@@ -1,4 +1,8 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "http://127.0.0.1:8000/api/v1";
+/**
+ * Prefer same-origin `/api/v1` (Next.js rewrites proxy to the API).
+ * Absolute NEXT_PUBLIC_API_BASE remains supported for explicit overrides.
+ */
+const API_BASE = (process.env.NEXT_PUBLIC_API_BASE ?? "/api/v1").replace(/\/$/, "");
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
@@ -22,17 +26,21 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return res.json() as Promise<T>;
 }
 
-export type SimulationSupport = "supported" | "experimental" | "unsupported";
+export type ReadinessStatus = "verified" | "implemented" | "partial" | "unsupported";
+export type SimulationSupport = ReadinessStatus;
 
 export interface Ability {
   id: string;
   name: string;
+  nameRu?: string | null;
   simcAction: string;
   category: string;
   optional: boolean;
   aoeClass: string;
   cooldown?: number | null;
   description?: string | null;
+  dataStatus?: string | null;
+  spellId?: number | null;
 }
 
 export interface HeroTalentTree {
@@ -41,24 +49,55 @@ export interface HeroTalentTree {
   simcToken?: string | null;
 }
 
+export interface TalentNode {
+  id: number;
+  name: string;
+  nameRu?: string | null;
+  maxRanks: number;
+  row: number;
+  col: number;
+  tree: string;
+  prerequisites: number[];
+  spellId?: number | null;
+  description?: string | null;
+}
+
 export interface Spec {
   id: number;
+  key: string;
   classId: number;
   className: string;
+  classNameRu?: string | null;
   name: string;
+  nameRu?: string | null;
   role: string;
+  attackType?: string;
+  primaryStat?: string;
   resourceType: string;
-  simulationSupport: SimulationSupport;
+  simulationSupport: ReadinessStatus;
+  readiness?: ReadinessStatus;
+  canAccurate?: boolean;
+  canFastEstimate?: boolean;
   heroTalentTrees: HeroTalentTree[];
   abilities: Ability[];
+  talentTree?: {
+    classNodes: TalentNode[];
+    specNodes: TalentNode[];
+    apexNodes?: TalentNode[];
+    heroTrees: HeroTalentTree[];
+  };
   notes?: string | null;
   defaultHeroTalent?: string | null;
   presetProfile?: string | null;
+  allyModelRequired?: boolean;
+  damageActivityShareDefault?: number;
+  offenseTank?: boolean;
 }
 
 export interface WowClass {
   id: number;
   name: string;
+  nameRu?: string | null;
   color: string;
   specs: Spec[];
 }
@@ -75,11 +114,17 @@ export interface AbilityBreakdownRow {
 
 export interface SimulationResult {
   meanDps: number;
+  personalDps?: number | null;
+  effectiveDps?: number | null;
+  allyAttributedDps?: number | null;
   minDps?: number | null;
   maxDps?: number | null;
   medianDps?: number | null;
   stdDev?: number | null;
   meanStdDev?: number | null;
+  p05Dps?: number | null;
+  p95Dps?: number | null;
+  confidence95?: number[] | null;
   totalDamage?: number | null;
   fightLength?: number | null;
   iterations?: number | null;
@@ -89,9 +134,13 @@ export interface SimulationResult {
   simcVersion: string;
   simcCommit: string;
   dataSnapshotId: string;
+  clientBuild?: number | null;
+  hotfixDate?: string | null;
   sources: string[];
   engine: string;
   isDemo: boolean;
+  isApproximation?: boolean;
+  assumptions?: string[];
   warnings: string[];
 }
 
@@ -121,10 +170,34 @@ export interface ComparisonResult {
   }>;
 }
 
+export interface RulesetBuild {
+  patch?: string;
+  clientBuild?: number;
+  hotfixDate?: string;
+  region?: string;
+  dataRevision?: string;
+  aplRevision?: string;
+  confidence?: string;
+  gameVersion?: string;
+  dataSnapshotId?: string;
+}
+
 export const api = {
-  health: () => request<{ ok: boolean; engine: string; gameVersion: string }>("/health"),
+  health: () =>
+    request<{
+      ok: boolean;
+      engine: string;
+      gameVersion: string;
+      clientBuild?: number;
+      hotfixDate?: string;
+      classCount?: number;
+      specCount?: number;
+    }>("/health"),
+  buildsCurrent: () => request<RulesetBuild>("/builds/current"),
   classes: () => request<WowClass[]>("/classes"),
-  spec: (id: number) => request<Spec>(`/specs/${id}`),
+  specs: () => request<Spec[]>("/specs"),
+  spec: (id: number | string) => request<Spec>(`/specs/${id}`),
+  raidEffects: () => request<{ buffs: unknown[]; debuffs: unknown[] }>("/raid-effects"),
   importTalents: (exportString: string, expectedSpecId?: number) =>
     request<{ ok: boolean; specId?: number; error?: string; warnings: string[] }>("/talents/import", {
       method: "POST",
@@ -137,12 +210,32 @@ export const api = {
     }),
   getSimulation: (id: string) => request<SimulationJob>(`/simulations/${id}`),
   compare: (body: unknown) =>
-    request<ComparisonResult>("/comparisons", {
+    request<ComparisonResult>("/compare", {
       method: "POST",
       body: JSON.stringify(body),
     }),
+  statWeights: (body: unknown) =>
+    request<{ baseDps: number; weights: Record<string, number>; isApproximation: boolean }>(
+      "/stat-weights",
+      { method: "POST", body: JSON.stringify(body) },
+    ),
 };
 
 export function formatDps(value: number): string {
-  return new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(value);
+  return new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 0 }).format(value);
+}
+
+export function readinessLabel(status: string): string {
+  switch (status) {
+    case "verified":
+      return "проверено";
+    case "implemented":
+      return "реализовано";
+    case "partial":
+      return "частично";
+    case "unsupported":
+      return "нет Accurate";
+    default:
+      return status;
+  }
 }

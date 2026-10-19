@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from app.config import Settings
-from app.domain.models import SimulationRequest, SimulationSupport
+from app.domain.models import ReadinessStatus, RotationMode, SimulationMode, SimulationRequest
 from app.simulation.apl_mutator import (
     build_priority_apl,
     sanitize_skip_actions,
@@ -61,25 +61,50 @@ def _apply_stat_overrides(profile: str, request: SimulationRequest) -> tuple[str
     return profile.rstrip() + "\n" + "\n".join(overrides) + "\n", warnings
 
 
+def _apply_raid_options(profile: str, request: SimulationRequest) -> tuple[str, list[str]]:
+    """Emit discrete raid buff/debuff toggles — never a single raidDamageMultiplier."""
+    warnings: list[str] = []
+    raid = request.fight.raid
+    lines: list[str] = []
+    # SimC accepts override.bloodlust / similar; keep portable comments + safe options.
+    lines.append(f"# raid.arcane_intellect={int(raid.arcaneIntellect)}")
+    lines.append(f"# raid.battle_shout={int(raid.battleShout)}")
+    lines.append(f"# raid.mark_of_the_wild={int(raid.markOfTheWild)}")
+    lines.append(f"# raid.skyfury={int(raid.skyfury)}")
+    lines.append(f"# raid.chaos_brand={int(raid.chaosBrand)}")
+    lines.append(f"# raid.mystic_touch={int(raid.mysticTouch)}")
+    if raid.bloodlust:
+        lines.append("override.bloodlust=1")
+        if raid.bloodlustAtMs > 0:
+            lines.append(f"# bloodlust_at_ms={raid.bloodlustAtMs}")
+    else:
+        lines.append("override.bloodlust=0")
+        warnings.append("Bloodlust disabled for this Accurate run")
+    if request.fight.incomingDamage:
+        lines.append("# encounter.incoming_damage=1")
+    if request.fight.clusterRadiusYards:
+        lines.append(f"# encounter.cluster_radius_yards={request.fight.clusterRadiusYards}")
+    return profile.rstrip() + "\n" + "\n".join(lines) + "\n", warnings
+
+
 def compose_profile(
     request: SimulationRequest,
     *,
     settings: Settings,
     preset_filename: str,
-    support: SimulationSupport,
+    support: ReadinessStatus,
     default_hero_talent: str | None = None,
 ) -> ComposedProfile:
     warnings: list[str] = []
 
-    if support == SimulationSupport.unsupported:
-        raise ValueError("Specialization is unsupported for simulation")
+    if support == ReadinessStatus.unsupported:
+        raise ValueError("Specialization is unsupported for Accurate simulation")
 
     if request.gear.rawSimcProfile:
         profile = _sanitize_imported_profile(request.gear.rawSimcProfile)
         warnings.append("Using sanitized imported SimulationCraft profile text.")
     else:
         profile = _load_preset(settings, preset_filename)
-        # Some MID1 talent hashes fail init on the pinned commit — strip and fall back.
         if request.talents.exportString:
             profile = _strip_line_prefixes(profile, ("talents=",))
             profile += f"talents={request.talents.exportString.strip()}\n"
@@ -93,21 +118,30 @@ def compose_profile(
                     "Import a valid talent string for accurate results."
                 )
         elif default_hero_talent and "talents=" in profile:
-            # Keep profile talents; composer may retry without them on init failure.
             pass
 
         if request.gear.preset == "custom":
             profile, stat_warnings = _apply_stat_overrides(profile, request)
             warnings.extend(stat_warnings)
 
-    # Fight / latency options as profile lines (also passed as CLI args for clarity)
     profile += f"\ndesired_targets={request.fight.targets}\n"
     profile += f"max_time={request.fight.duration}\n"
     profile += f"fight_style={request.fight.fightStyle.value}\n"
     profile += f"gcd_lag={request.fight.latencyMs / 1000.0:.3f}\n"
+    profile, raid_warnings = _apply_raid_options(profile, request)
+    warnings.extend(raid_warnings)
 
-    # Rotation mutations
-    if request.rotation.mode.value == "custom":
+    mode = request.rotation.mode
+    use_custom = mode in {
+        RotationMode.custom,
+        RotationMode.burst_focus,
+        RotationMode.sustained,
+        RotationMode.aoe_optimization,
+    }
+    if use_custom and mode != RotationMode.custom:
+        warnings.append(f"Rotation profile={mode.value} — using priority/skip mutations on default APL")
+
+    if mode == RotationMode.custom:
         if request.rotation.customApl:
             for line in validate_custom_apl(request.rotation.customApl):
                 profile += line + "\n"
@@ -121,15 +155,15 @@ def compose_profile(
         if skip:
             profile += f"skip_actions={skip}\n"
     else:
-        # Automatic: still allow optional disables via skip_actions
         skip = sanitize_skip_actions(request.rotation.disabledActions)
         if skip:
             profile += f"skip_actions={skip}\n"
             warnings.append(f"Disabled actions via skip_actions={skip}")
 
-    if request.fight.mode.value == "accurate":
+    if request.fight.mode == SimulationMode.accurate:
         iterations = request.fight.iterations or settings.max_iterations_accurate
     else:
+        # Legacy "quick" Accurate path (low iterations)
         iterations = request.fight.iterations or settings.max_iterations_quick
     iterations = max(1, min(iterations, settings.max_iterations_accurate))
 
@@ -141,8 +175,8 @@ def compose_profile(
     if request.seed is not None:
         extra_args.append(f"seed={int(request.seed)}")
 
-    if support == SimulationSupport.experimental:
-        warnings.append("Specialization marked Experimental — interpret results cautiously.")
+    if support in {ReadinessStatus.partial, ReadinessStatus.implemented}:
+        warnings.append(f"Specialization readiness={support.value}")
 
     return ComposedProfile(
         text=profile,

@@ -1,47 +1,34 @@
 # Testing
 
-## Unit (API)
+## API
 
 ```bash
-cd apps/api && python3 -m pytest -q
+cd apps/api
+SIM_ENGINE=mock python3 -m pytest
 ```
 
-Covers:
+Coverage highlights:
 
-- json2 parsing fixture
-- APL allowlist / skip_actions
-- talent string header decode
-- cache key stability
-- comparison significance band
-- mock API happy path
+- `test_coverage_registry.py` — 13/40 keys, Arcane/Devourer/Aug, Fast Estimate, ability disable rebuild
+- `test_fast_estimate.py` — target scaling
+- Existing APL/talent/parser/mock suites
 
-## Integration (SimulationCraft)
+Accurate SimC integration (`test_simc_integration.py`) skips when the binary is absent.
 
-`tests/test_simc_integration.py` runs a real Shadow Priest quick sim when `engine/simc/bin/simc` exists.
-
-## Frontend
+## Smoke (requires SimC binary)
 
 ```bash
-cd apps/web && npm test
+./engine/simc/build.sh
+python3 scripts/smoke_specs.py
 ```
 
-## E2E
+Runs all `canAccurate` specs against the pin.
 
-Requires web + API running:
+## Web
 
 ```bash
 cd apps/web
-npx playwright install chromium
-npm run test:e2e
+npm test
+npm run lint
+npm run build
 ```
-
-Primary scenario (manual / future expansion): class → spec → talents → abilities → 5 targets → Simulate → DPS → compare.
-
-## Regression policy
-
-Do **not** assert exact stochastic DPS equality. Assert:
-
-- process success
-- `meanDps > 0`
-- breakdown structure present
-- optional statistical band around a recorded baseline for the same seed/iterations

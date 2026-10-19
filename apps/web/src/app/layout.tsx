@@ -17,13 +17,13 @@ const body = Source_Sans_3({
 });
 
 export const metadata: Metadata = {
-  title: "WoW DPS Lab",
-  description: "SimulationCraft-backed DPS calculator for World of Warcraft Midnight 12.1.5",
+  title: "WoW DPS Lab — Midnight 12.1.5",
+  description: "DPS-калькулятор World of Warcraft: Midnight 12.1.5 (Fast Estimate + SimulationCraft Accurate)",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`}>
+    <html lang="ru" className={`${display.variable} ${body.variable}`}>
       <body className="antialiased">
         <Providers>{children}</Providers>
       </body>

@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import json
 
-from app.data.catalog import get_spec
+from app.data.catalog import resolve_spec
 from app.domain.models import JobStatus, SimulationRequest
 from app.persistence.db import SimulationJobRow, get_session, utcnow
-from app.simulation.factory import get_engine
+from app.simulation.factory import get_engine_for_request
 
 
 def run_simulation_job(job_id: str) -> None:
@@ -22,15 +22,19 @@ def run_simulation_job(job_id: str) -> None:
         session.commit()
 
         request = SimulationRequest.model_validate_json(row.request_json)
-        spec = get_spec(request.specId)
+        spec = resolve_spec(spec_id=request.specId, spec_key=request.specKey)
         if spec is None:
             row.status = JobStatus.failed.value
-            row.error = f"Unknown specId {request.specId}"
+            row.error = f"Unknown specId={request.specId} specKey={request.specKey}"
             row.updated_at = utcnow()
             session.commit()
             return
+        if request.specId is None:
+            request.specId = spec.id
+        if request.specKey is None:
+            request.specKey = spec.key
 
-        engine = get_engine()
+        engine = get_engine_for_request(request)
         try:
             result = engine.run(request, spec)
             row.status = JobStatus.succeeded.value

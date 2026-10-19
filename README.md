@@ -2,7 +2,10 @@
 
 Interactive DPS laboratory for **World of Warcraft: Midnight, patch 12.1.5 (Retail)**.
 
-Combat results are produced by **SimulationCraft** (GPL-3.0) via a sandboxed CLI worker — not by invented damage coefficients.
+- **Fast Estimate** — deterministic approximation for interactive tuning (`isApproximation: true`)
+- **Accurate** — sandboxed **SimulationCraft** Monte Carlo (GPL-3.0)
+
+Coverage: **13 classes / 40 specializations** in SpecRegistry (including Devourer DH, Arcane Mage, tanks, healers, Augmentation).
 
 > Not affiliated with Blizzard Entertainment.
 
@@ -13,91 +16,53 @@ Combat results are produced by **SimulationCraft** (GPL-3.0) via a sandboxed CLI
 | Web | Next.js, React, TypeScript, Tailwind, Zustand, TanStack Query, Recharts |
 | API | FastAPI, Pydantic v2, SQLAlchemy |
 | Jobs | Redis + RQ |
-| Engine | Pinned SimulationCraft (`engine/simc/SIMC_PIN`) |
+| Engine | Pinned SimulationCraft (`engine/simc/SIMC_PIN`) + FastEstimateEngine |
 | Data | Versioned catalog + MID1 presets under `packages/game-data` |
 
 ## Quick start (local)
 
-### 1. Build SimulationCraft
+### 1. Build SimulationCraft (Accurate only)
 
 ```bash
 ./engine/simc/build.sh
 ```
 
-### 2. API dependencies
+### 2. API
 
 ```bash
 cd apps/api
 python3 -m pip install -e ".[dev]"
-```
-
-### 3. Redis
-
-```bash
-redis-server --daemonize yes
-```
-
-### 4. API + worker
-
-```bash
-# terminal A
-cd apps/api
-uvicorn app.main:app --reload --port 8000
-
-# terminal B
-cd apps/worker
-PYTHONPATH=../api python3 worker.py
-```
-
-For a local sync path without the worker (useful for demos):
-
-```bash
-# POST /api/v1/simulations?sync=true runs in-process
-```
-
-Or use the mock engine for UI-only work:
-
-```bash
 SIM_ENGINE=mock uvicorn app.main:app --reload --port 8000
 ```
 
-Mock results are always labeled `isDemo: true` and must never be presented as real sims.
+Mock / Fast Estimate work without a SimC binary. For Accurate:
 
-### 5. Web UI
+```bash
+SIM_ENGINE=simc uvicorn app.main:app --reload --port 8000
+```
+
+### 3. Web UI
 
 ```bash
 cd apps/web
 npm install
-NEXT_PUBLIC_API_BASE=http://127.0.0.1:8000/api/v1 npm run dev
+npm run dev
 ```
 
 Open http://127.0.0.1:3000
 
-## Docker Compose
+The UI calls same-origin `/api/v1/*`; Next.js rewrites proxy to the API (`API_PROXY_TARGET`, default `http://127.0.0.1:8000`). If the API is down, class/spec pickers still load from `public/game-catalog.json`.
+
+## Rebuild game registry
 
 ```bash
-docker compose up --build
+python3 scripts/build_spec_registry.py
 ```
-
-Services: `web`, `api`, `worker`, `redis`, `db`. The `worker` image builds pinned SimulationCraft.
-
-## Supported specs (MVP)
-
-| Spec | Support | Notes |
-|---|---|---|
-| Shadow Priest | supported | MID1 profile |
-| Affliction Warlock | supported | MID1 profile |
-| Assassination Rogue | supported | MID1 profile |
-| Enhancement Shaman | supported | MID1 profile |
-| Fury Warrior | experimental | MID1 `talents=` hash fails on pin; retries with `hero_talents=slayer` |
-| Havoc Demon Hunter | experimental | same talent-hash caveat |
-
-Unsupported / healer specs are listed in the catalog but cannot be simulated.
 
 ## Tests
 
 ```bash
-cd apps/api && python3 -m pytest
+cd apps/api && SIM_ENGINE=mock python3 -m pytest
 cd apps/web && npm test
 ```
 
@@ -114,4 +79,4 @@ cd apps/web && npm test
 
 - Application code in this repository: see repository license / project terms.
 - SimulationCraft binary and profiles: **GPL-3.0** — keep as a separate process/image.
-- Blizzard Game Data API usage must follow Blizzard Developer API Terms of Use (no monetization of API-sourced features).
+- Blizzard Game Data API usage must follow Blizzard Developer API Terms of Use.
