@@ -1,0 +1,235 @@
+{
+  "version": "1210-01",
+  "report_version": "2.0.0",
+  "git_revision": "d91a570",
+  "git_branch": "midnight",
+  "build_date": "Oct 19 2026",
+  "sim": {
+    "options": {
+      "iterations": 101,
+      "max_time": 180.0,
+      "desired_targets": 1,
+      "threads": 2,
+      "fight_style": "Patchwerk"
+    },
+    "players": [
+      {
+        "name": "MID1_Rogue_Assassination",
+        "specialization": "Assassination Rogue",
+        "collected_data": {
+          "dps": {
+            "sum": 13192878.82983324,
+            "count": 99,
+            "mean": 133261.40232154788,
+            "min": 115423.27848763981,
+            "max": 153949.97641357195,
+            "median": 133200.19467380646,
+            "variance": 68567962.36142322,
+            "std_dev": 8280.577417150524,
+            "mean_variance": 692605.6804184164,
+            "mean_std_dev": 832.2293436417731
+          },
+          "dmg": {
+            "sum": 2362382132.8727016,
+            "count": 99,
+            "mean": 23862445.786592945,
+            "min": 18302280.880033106,
+            "max": 27892657.83947652
+          },
+          "fight_length": {
+            "sum": 17819.992,
+            "count": 99,
+            "mean": 179.99991919191916,
+            "min": 144.36,
+            "max": 215.28
+          }
+        },
+        "stats": [
+          {
+            "name": "envenom",
+            "id": 32645,
+            "school": "nature",
+            "type": "damage",
+            "num_executes": {
+              "sum": 4189.0,
+              "count": 99,
+              "mean": 42.313131313131315
+            },
+            "actual_amount": {
+              "sum": 479764798.6013856,
+              "count": 99,
+              "mean": 4846109.076781672,
+              "min": 3548819.6513945893,
+              "max": 6366348.960554889
+            },
+            "portion_amount": 0.2030851791187493,
+            "portion_aps": {
+              "sum": 2679533.1940792976,
+              "count": 99,
+              "mean": 27065.991859386846,
+              "min": 21724.451115048243,
+              "max": 33384.30069752938
+            }
+          },
+          {
+            "name": "garrote",
+            "id": 703,
+            "school": "physical",
+            "type": "damage",
+            "num_executes": {
+              "sum": 855.0,
+              "count": 99,
+              "mean": 8.636363636363637
+            },
+            "actual_amount": {
+              "sum": 272589887.58326423,
+              "count": 99,
+              "mean": 2753433.20791176,
+              "min": 2131083.397867805,
+              "max": 3317632.280470136
+            },
+            "portion_amount": 0.11538771978934237,
+            "portion_aps": {
+              "sum": 1521913.109265054,
+              "count": 99,
+              "mean": 15372.859689546001,
+              "min": 12908.396801786892,
+              "max": 17629.65854815963
+            }
+          },
+          {
+            "name": "rupture",
+            "id": 1943,
+            "school": "physical",
+            "type": "damage",
+            "num_executes": {
+              "sum": 606.0,
+              "count": 99,
+              "mean": 6.121212121212121
+            },
+            "actual_amount": {
+              "sum": 218019178.9251184,
+              "count": 99,
+              "mean": 2202213.928536549,
+              "min": 1532896.242674639,
+              "max": 2596829.924488933
+            },
+            "portion_amount": 0.0922878546579604,
+            "portion_aps": {
+              "sum": 1216912.4927787236,
+              "count": 99,
+              "mean": 12292.045381603268,
+              "min": 9996.242110644655,
+              "max": 14401.65654345283
+            }
+          },
+          {
+            "name": "kingsbane",
+            "id": 385627,
+            "school": "nature",
+            "type": "damage",
+            "num_executes": {
+              "sum": 308.0,
+              "count": 99,
+              "mean": 3.111111111111111
+            },
+            "actual_amount": {
+              "sum": 196917637.68145236,
+              "count": 99,
+              "mean": 1989067.0472873976,
+              "min": 946199.7587483107,
+              "max": 2531414.754754852
+            },
+            "portion_amount": 0.08335553970770883,
+            "portion_aps": {
+              "sum": 1103687.5171145243,
+              "count": 99,
+              "mean": 11148.35875873257,
+              "min": 6441.99182154351,
+              "max": 15660.703202529668
+            }
+          },
+          {
+            "name": "amplifying_poison",
+            "id": 383414,
+            "school": "nature",
+            "type": "damage",
+            "num_executes": {
+              "sum": 0.0,
+              "count": 99,
+              "mean": 0.0
+            },
+            "actual_amount": {
+              "sum": 146112267.17735294,
+              "count": 99,
+              "mean": 1475881.4866399285,
+              "min": 1115202.7964691042,
+              "max": 1763693.9840487067
+            },
+            "portion_amount": 0.06184954802366272,
+            "portion_aps": {
+              "sum": 817796.6233377906,
+              "count": 99,
+              "mean": 8260.571952906976,
+              "min": 6270.719860606565,
+              "max": 10287.2244522765
+            }
+          },
+          {
+            "name": "internal_bleeding",
+            "id": 381628,
+            "school": "physical",
+            "type": "damage",
+            "num_executes": {
+              "sum": 0.0,
+              "count": 99,
+              "mean": 0.0
+            },
+            "actual_amount": {
+              "sum": 51488508.8117023,
+              "count": 99,
+              "mean": 520085.9475929526,
+              "min": 379557.32605914713,
+              "max": 696099.7478522906
+            },
+            "portion_amount": 0.021795165183158282,
+            "portion_aps": {
+              "sum": 286402.6929580719,
+              "count": 99,
+              "mean": 2892.9564945259785,
+              "min": 2332.3689973207656,
+              "max": 3662.1409293575894
+            }
+          },
+          {
+            "name": "deathmark",
+            "id": 360194,
+            "school": "physical",
+            "type": "damage",
+            "num_executes": {
+              "sum": 198.0,
+              "count": 99,
+              "mean": 2.0
+            },
+            "actual_amount": {
+              "sum": 25357336.746994976,
+              "count": 99,
+              "mean": 256134.71461611087,
+              "min": 162921.52614002596,
+              "max": 323106.5641404995
+            },
+            "portion_amount": 0.010733799749899044,
+            "portion_aps": {
+              "sum": 142665.95674436254,
+              "count": 99,
+              "mean": 1441.0702701450762,
+              "min": 1001.7035714793793,
+              "max": 2131.8722891297143
+            }
+          }
+        ],
+        "stats_pets": []
+      }
+    ]
+  }
+}
