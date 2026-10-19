@@ -46,10 +46,12 @@ SIM_ENGINE=simc uvicorn app.main:app --reload --port 8000
 ```bash
 cd apps/web
 npm install
-NEXT_PUBLIC_API_BASE=http://127.0.0.1:8000/api/v1 npm run dev
+npm run dev
 ```
 
 Open http://127.0.0.1:3000
+
+The UI calls same-origin `/api/v1/*`; Next.js rewrites proxy to the API (`API_PROXY_TARGET`, default `http://127.0.0.1:8000`). If the API is down, class/spec pickers still load from `public/game-catalog.json`.
 
 ## Rebuild game registry
 
